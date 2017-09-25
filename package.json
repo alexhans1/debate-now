@@ -1,6 +1,7 @@
 {
   "name": "debate-maker",
   "version": "0.1.0",
+  "homepage": "https://alexhans1.github.io/debate-maker/",
   "private": true,
   "dependencies": {
     "react": "^15.6.1",
@@ -13,7 +14,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "proxy": "http://localhost:3001"
 }
