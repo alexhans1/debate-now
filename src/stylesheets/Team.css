@@ -1,0 +1,7 @@
+.team {
+  width: 200px;
+  min-height: 150px;
+  padding: 10px;
+
+  border: solid #d85d29 1px;
+}

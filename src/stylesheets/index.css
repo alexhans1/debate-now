@@ -1,0 +1,25 @@
+:root {
+  --gradient-color1: #34b5cc;
+  --gradient-color2: #36cc9e;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+
+  height: 100%;
+
+  background: var(--gradient-color1); /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, var(--gradient-color1), var(--gradient-color2)); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, var(--gradient-color1), var(--gradient-color2)); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, var(--gradient-color1), var(--gradient-color2)); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, var(--gradient-color1), var(--gradient-color2)); /* Standard syntax */
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.0) !important;
+}

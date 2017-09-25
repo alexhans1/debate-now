@@ -1,0 +1,29 @@
+.room {
+  position: relative;
+
+  padding: 15px;
+  padding-top: 20px;
+  width: 100%;
+  margin-bottom: 10px;
+
+  border: solid #ededed 1px;
+}
+
+.teams {
+  display: flex;
+  justify-content: space-around;
+}
+
+.deleteRoom {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-around;
+  /*display: flex;*/
+  /*flex-wrap: wrap;*/
+  /*align-content: center;*/
+}
