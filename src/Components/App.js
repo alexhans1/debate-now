@@ -74,11 +74,13 @@ class App extends Component {
         {
           location: '1.601',
           format: 'bps',
+          language: 'en',
           key: makeid(10),
         },
         {
           location: '1.604',
           format: 'opd',
+          language: 'de',
           id: makeid(10),
         },
       ],

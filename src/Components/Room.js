@@ -49,7 +49,11 @@ class Room extends Component {
           </h5>
           <h5>Format:
             <br/>
-            <b>BPS</b>
+            <b>{room.format}</b>
+          </h5>
+          <h5>Language:
+            <br/>
+            <b>{room.language}</b>
           </h5>
         </div>
 
@@ -59,7 +63,7 @@ class Room extends Component {
         </div>
 
         <button onClick={() => this.deleteRoom(room.id) } className="btn btn-outline-danger btn-circle deleteRoom">
-          <i className="fa fa-times" aria-hidden="true"></i>
+          <i className="fa fa-times" aria-hidden="true"/>
         </button>
       </div>
     );
