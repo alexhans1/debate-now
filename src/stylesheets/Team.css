@@ -3,5 +3,6 @@
   min-height: 150px;
   padding: 10px;
 
-  border: solid #d85d29 1px;
+  border-style: solid;
+  border-width: 1px
 }

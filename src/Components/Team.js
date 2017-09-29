@@ -52,7 +52,7 @@ class Team extends Component {
     const backgroundColor = isActive ? 'lightgreen' : 'rgba(0, 0, 0, 0.0)';
 
     return connectDropTarget(
-      <div className={`team ${ this.props.class }`} style={{backgroundColor}}>
+      <div className={`team border--white ${ this.props.class }`} style={{backgroundColor}}>
         <h5>{this.props.position}</h5>
         {cards.map((card, i) => {
           return (

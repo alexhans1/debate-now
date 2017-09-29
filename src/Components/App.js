@@ -75,7 +75,7 @@ class App extends Component {
           location: '1.601',
           format: 'bps',
           language: 'en',
-          key: makeid(10),
+          id: makeid(10),
         },
         {
           location: '1.604',
@@ -118,7 +118,7 @@ class App extends Component {
         </div>
 
         <div className="row">
-          <div className={"col-sm-10"}>
+          <div className={"col-md-10"}>
             {
               this.state.rooms.map((room) => {
                 return <Room key={makeid(5)} room={room} deleteRoom={this.deleteRoom.bind(this)} />;
@@ -140,7 +140,7 @@ class App extends Component {
             </div>
           </div>
 
-          <div className={"col-sm-2"}>
+          <div className={"col-md-2"}>
             <List key={makeid(5)} list={this.state.users} />
           </div>
         </div>

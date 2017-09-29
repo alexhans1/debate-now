@@ -5,10 +5,7 @@ import '../stylesheets/Room.css'
 class Room extends Component {
 
   deleteRoom (id) {
-
-    console.log(this.foo);
-
-    console.log(id);
+    this.props.deleteRoom(id);
   }
 
   render() {
@@ -49,7 +46,7 @@ class Room extends Component {
           </h5>
           <h5>Format:
             <br/>
-            <b>{room.format}</b>
+            <b className={"uppercase"}>{room.format}</b>
           </h5>
           <h5>Language:
             <br/>
@@ -59,7 +56,8 @@ class Room extends Component {
 
         <div className={"teams"}>
           {teams}
-          <Team ref={(foo) => { this.foo = foo; }} class={"ml-2"} id={room.location + '_judge'} position={"Judges"} />
+          <Team ref={(dndContainer) => { this.dndContainer = dndContainer; }}
+                class={"ml-2"} id={room.location + '_judge'} position={"Judges"} />
         </div>
 
         <button onClick={() => this.deleteRoom(room.id) } className="btn btn-outline-danger btn-circle deleteRoom">
