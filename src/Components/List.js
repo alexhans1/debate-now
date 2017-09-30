@@ -8,7 +8,66 @@ class List extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { cards: props.list };
+    this.state = {
+      cards: [
+        {
+          id: 1,
+          name: 'Hans',
+          vorname: 'Alexander',
+          role: 'speaker',
+          format: 'bps',
+          language: 'de',
+        },
+        {
+          id: 2,
+          name: 'Maham',
+          vorname: 'Pegah',
+          role: 'judge',
+          format: 'opd',
+          language: 'en',
+        },
+        {
+          id: 3,
+          name: 'Sommerfeld',
+          vorname: 'Georg',
+          role: 'speaker',
+          format: 'bps',
+          language: 'de',
+        },
+        {
+          id: 4,
+          name: 'Münch',
+          vorname: 'Tobias',
+          role: 'speaker',
+          format: 'opd',
+          language: 'de',
+        },
+        {
+          id: 5,
+          name: 'Tarbuk',
+          vorname: 'Lara',
+          role: 'speaker',
+          format: 'opd',
+          language: 'de',
+        },
+        {
+          id: 6,
+          name: 'Niederschuh',
+          vorname: 'Katrin',
+          role: 'judge',
+          format: 'bps',
+          language: 'de',
+        },
+        {
+          id: 7,
+          name: 'Dexel',
+          vorname: 'Christina',
+          role: 'judge',
+          format: 'bps',
+          language: 'en',
+        },
+      ],
+    };
   }
 
 
@@ -42,6 +101,13 @@ class List extends Component {
         ]
       }
     }));
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(this.state.cards.length !== nextState.cards.length);
+    // You can access `this.props` and `this.state` here
+    // This function should return a boolean, whether the component should re-render.
+    return true;
   }
 
   render() {

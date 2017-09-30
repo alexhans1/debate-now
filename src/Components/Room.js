@@ -8,6 +8,13 @@ class Room extends Component {
     this.props.deleteRoom(id);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('room', nextProps, nextState);
+    // You can access `this.props` and `this.state` here
+    // This function should return a boolean, whether the component should re-render.
+    return true;
+  }
+
   render() {
     const { room } = this.props;
 

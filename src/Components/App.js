@@ -5,6 +5,8 @@ import '../stylesheets/App.css';
 import remove from 'lodash/remove';
 import Room from "./Room";
 import List from "./List";
+import RoomStore from '../stores/RoomStore'
+import UserStore from '../stores/UserStore'
 
 class App extends Component {
 
@@ -12,78 +14,8 @@ class App extends Component {
     super();
     this.state = {
       // initialize with sample data
-      users: [
-        {
-          id: 1,
-          name: 'Hans',
-          vorname: 'Alexander',
-          role: 'speaker',
-          format: 'bps',
-          language: 'de',
-        },
-        {
-          id: 2,
-          name: 'Maham',
-          vorname: 'Pegah',
-          role: 'judge',
-          format: 'opd',
-          language: 'en',
-        },
-        {
-          id: 3,
-          name: 'Sommerfeld',
-          vorname: 'Georg',
-          role: 'speaker',
-          format: 'bps',
-          language: 'de',
-        },
-        {
-          id: 4,
-          name: 'Münch',
-          vorname: 'Tobias',
-          role: 'speaker',
-          format: 'opd',
-          language: 'de',
-        },
-        {
-          id: 5,
-          name: 'Tarbuk',
-          vorname: 'Lara',
-          role: 'speaker',
-          format: 'opd',
-          language: 'de',
-        },
-        {
-          id: 6,
-          name: 'Niederschuh',
-          vorname: 'Katrin',
-          role: 'judge',
-          format: 'bps',
-          language: 'de',
-        },
-        {
-          id: 7,
-          name: 'Dexel',
-          vorname: 'Christina',
-          role: 'judge',
-          format: 'bps',
-          language: 'en',
-        },
-      ],
-      rooms: [
-        {
-          location: '1.601',
-          format: 'bps',
-          language: 'en',
-          id: makeid(10),
-        },
-        {
-          location: '1.604',
-          format: 'opd',
-          language: 'de',
-          id: makeid(10),
-        },
-      ],
+      users: UserStore.getAllUsers(),
+      rooms: RoomStore.getAllRooms(),
     }
 
   }
@@ -141,7 +73,7 @@ class App extends Component {
           </div>
 
           <div className={"col-md-2"}>
-            <List key={makeid(5)} list={this.state.users} />
+            <List key={makeid(5)} />
           </div>
         </div>
 

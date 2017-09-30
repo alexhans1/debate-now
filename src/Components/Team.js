@@ -44,6 +44,13 @@ class Team extends Component {
     }));
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log('team', nextProps, 'state', nextState);
+    // You can access `this.props` and `this.state` here
+    // This function should return a boolean, whether the component should re-render.
+    return true;
+  }
+
   render() {
     const { cards } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;

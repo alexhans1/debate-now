@@ -4,6 +4,7 @@
   "homepage": "https://alexhans1.github.io/debate-maker/",
   "private": true,
   "dependencies": {
+    "flux": "^3.1.3",
     "react": "^15.6.1",
     "react-dnd": "^2.5.1",
     "react-dnd-html5-backend": "^2.5.1",
