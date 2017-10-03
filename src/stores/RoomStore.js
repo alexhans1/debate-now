@@ -23,6 +23,10 @@ class RoomStore extends EventEmitter {
   }
 
   createRoom(location, format, language) {
+    if (typeof format !== 'string') {
+        return
+    }
+
     const id = Date.now();
     let newRoomsArray = this.rooms.slice();
     newRoomsArray.push(
@@ -38,7 +42,7 @@ class RoomStore extends EventEmitter {
   }
 
   deleteRoom(id) {
-    let newRoomsArray = this.state.rooms.slice();
+    let newRoomsArray = this.rooms.slice();
     remove(newRoomsArray, {id});
     this.rooms = newRoomsArray;
     this.emit('change');
@@ -49,6 +53,7 @@ class RoomStore extends EventEmitter {
   }
 
   handleAction(action) {
+    console.log('RoomStore received an action.', action);
     switch (action.type){
       case "CREATE_ROOM": {
         this.createRoom(action.location, action.format, action.language);
@@ -63,7 +68,6 @@ class RoomStore extends EventEmitter {
 }
 
 const roomStore = new RoomStore();
-
 dispatcher.register(roomStore.handleAction.bind(roomStore));
 
 export default roomStore;
