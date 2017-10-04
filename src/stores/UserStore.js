@@ -66,6 +66,7 @@ class UserStore extends EventEmitter {
   }
 
   createUser(last_name, first_name, role, format, language) {
+    console.log(last_name, first_name, role, format, language);
     const id = Date.now();
     let newUsersArray = this.users.slice();
     newUsersArray.push(

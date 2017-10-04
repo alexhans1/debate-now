@@ -21,9 +21,18 @@ class App extends Component {
   }
 
   componentWillMount() {
+    window.roomStore = RoomStore;
     RoomStore.on('change', () => {
       this.setState({
         rooms: RoomStore.getAllRooms(),
+      });
+    });
+
+    window.userStore = UserStore;
+    UserStore.on('change', () => {
+      console.log(234567);
+      this.setState({
+        users: UserStore.getAllUsers(),
       });
     });
   }
@@ -63,7 +72,7 @@ class App extends Component {
           </div>
 
           <div className={"col-md-2"}>
-            <List key={makeid(5)} />
+            <List key={makeid(5)} users={this.state.users} />
           </div>
         </div>
 
