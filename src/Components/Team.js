@@ -20,7 +20,6 @@ class Team extends Component {
   }
 
   removeCard(index) {
-    console.log(index);
     this.setState(update(this.state, {
       cards: {
         $splice: [
@@ -42,13 +41,6 @@ class Team extends Component {
         ]
       }
     }));
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // console.log('team', nextProps, 'state', nextState);
-    // You can access `this.props` and `this.state` here
-    // This function should return a boolean, whether the component should re-render.
-    return true;
   }
 
   render() {

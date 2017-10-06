@@ -7,3 +7,7 @@
 .dropdown-item {
   cursor: pointer;
 }
+
+.model-background {
+  background-color: var(--light-olive);
+}

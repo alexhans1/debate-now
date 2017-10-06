@@ -1,6 +1,6 @@
 import {EventEmitter} from "events";
 import dispatcher from "../dispatcher";
-import {makeid} from '../customUtils'
+import {makeid} from '../customUtils';
 import remove from 'lodash/remove';
 
 class RoomStore extends EventEmitter {
@@ -53,7 +53,6 @@ class RoomStore extends EventEmitter {
   }
 
   handleAction(action) {
-    console.log('RoomStore received an action.', action);
     switch (action.type){
       case "CREATE_ROOM": {
         this.createRoom(action.location, action.format, action.language);
@@ -62,6 +61,9 @@ class RoomStore extends EventEmitter {
       case "DELETE_ROOM": {
         this.deleteRoom(action.id);
         break;
+      }
+      default: {
+        console.log('No corresponding action found for requested room action:', action);
       }
     }
   }

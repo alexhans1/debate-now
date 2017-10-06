@@ -3,10 +3,13 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import '../stylesheets/App.css';
 import Room from "./Room";
-import List from "./List";
+import List from "./List/List";
 import RoomStore from '../stores/RoomStore'
 import UserStore from '../stores/UserStore'
 import * as RoomActions from '../actions/RoomActions'
+import * as UserActions from '../actions/UserActions'
+
+import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 
 class App extends Component {
 
@@ -16,21 +19,56 @@ class App extends Component {
       // initialize with sample data
       users: UserStore.getAllUsers(),
       rooms: RoomStore.getAllRooms(),
-    }
+
+      newRoom: {
+        roomName: '',
+        roomFormat: 'BPS',
+        roomLanguage: 'de',
+
+      },
+      showModal: false,
+    };
+
+    this.toggleModal = this.toggleModal.bind(this);
 
   }
 
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
+  }
+
+  handleChangeFor = (propertyName) => (event) => {
+    const { newRoom } = this.state;
+    const roomToAdd = {
+      ...newRoom,
+      [propertyName]: event.target.value
+    };
+    this.setState({ newRoom: roomToAdd, });
+  };
+
+  handleAddRoomSubmit(e) {
+    e.preventDefault();
+    RoomActions.createRoom(this.state.newRoom.roomName, this.state.newRoom.roomFormat, this.state.newRoom.roomLanguage);
+    this.setState({
+      newRoom: {
+        roomName: '',
+        roomFormat: 'BPS',
+        roomLanguage: 'de',
+      },
+      showModal: false,
+    });
+  };
+
   componentWillMount() {
-    window.roomStore = RoomStore;
     RoomStore.on('change', () => {
       this.setState({
         rooms: RoomStore.getAllRooms(),
       });
     });
 
-    window.userStore = UserStore;
     UserStore.on('change', () => {
-      console.log(234567);
       this.setState({
         users: UserStore.getAllUsers(),
       });
@@ -52,27 +90,59 @@ class App extends Component {
           <div className={"col-md-10"}>
             {
               this.state.rooms.map((room) => {
-                return <Room key={makeid(5)} room={room} deleteRoom={RoomActions.deleteRoom.bind(this)} />;
+                return <Room key={room.id} room={room} deleteRoom={RoomActions.deleteRoom.bind(this)} />;
               })
             }
             <div id="addNewRoom" className={"mt-3"}>
-              <button className="btn btn-outline-danger btn-xl btn-circle"
-                      data-toggle="dropdown">
+              <Button outline color="danger" onClick={this.toggleModal} className={"btn-circle btn-xl"}>
                 <i className="fa fa-plus" aria-hidden="true"/>
-              </button>
-              <ul className={"dropdown-menu"}>
-                <li><a className={"dropdown-item"} onClick={() => RoomActions.createRoom('1.605', 'bps')}>
-                  Add BPS Room
-                </a></li>
-                <li><a className={"dropdown-item"} onClick={() => RoomActions.createRoom('1.605', 'opd')}>
-                  Add OPD Room
-                </a></li>
-              </ul>
+              </Button>
+              <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleModal} className={"black"}>Add new room</ModalHeader>
+                <ModalBody className={"black"}>
+                  <Form onSubmit={this.handleAddRoomSubmit.bind(this)}>
+                    <FormGroup row>
+                      <Label for="roomName" sm={3}>Roomname</Label>
+                      <Col sm={9}>
+                        <Input type="text" onChange={this.handleChangeFor('roomName')}
+                               value={this.state.newRoom.roomName}
+                               name="room name" id="roomName" placeholder="Room Name" />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="roomFormat" sm={3}>Format</Label>
+                      <Col sm={9}>
+                        <Input type="select" onChange={this.handleChangeFor('roomFormat')}
+                               value={this.state.newRoom.roomFormat}
+                               name="room format" id="roomFormat">
+                          <option>BPS</option>
+                          <option>OPD</option>
+                        </Input>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="roomLanguage" sm={3}>Language</Label>
+                      <Col sm={9}>
+                        <Input type="select" onChange={this.handleChangeFor('roomLanguage')}
+                               value={this.state.newRoom.roomLanguage}
+                               name="room language" id="roomLanguage">
+                          <option>de</option>
+                          <option>en</option>
+                        </Input>
+                      </Col>
+                    </FormGroup>
+                    <Button color={"info"} className={"pull-right"}>Submit</Button>
+                  </Form>
+                </ModalBody>
+              </Modal>
             </div>
           </div>
 
           <div className={"col-md-2"}>
-            <List key={makeid(5)} users={this.state.users} />
+            <List key={"userList"}
+                  users={this.state.users}
+                  createUser={UserActions.createUser.bind(this)}
+                  deleteUser={UserActions.deleteUser.bind(this)} />
           </div>
         </div>
 
@@ -81,16 +151,5 @@ class App extends Component {
   }
 
 }
-
-let makeid = (n) => {
-  let text = "";
-  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (let i = 0; i < n; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-};
-
 
 export default DragDropContext(HTML5Backend)(App);

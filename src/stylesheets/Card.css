@@ -1,10 +1,10 @@
-.card {
+.cardItem {
   border: 1px dashed gray;
   padding: 0.5rem 0.8rem;
   border-radius: 0;
   margin: .5rem;
-  background-color: white;
   cursor: move;
+  position: relative;
 }
 
 .deleteCard {

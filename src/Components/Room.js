@@ -2,17 +2,39 @@ import React, { Component } from 'react';
 import Team from './Team';
 import '../stylesheets/Room.css'
 
+import { Button } from 'reactstrap';
+
 class Room extends Component {
 
-  deleteRoom (id) {
-    this.props.deleteRoom(id);
+  constructor() {
+    super();
+    this.state = {
+      judges: null,
+      containers: [],
+    };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('room', nextProps, nextState);
-    // You can access `this.props` and `this.state` here
-    // This function should return a boolean, whether the component should re-render.
-    return true;
+  deleteRoom (id) {
+    // check if there are users in this room
+    let BreakException = {};
+    try {
+      this.state.containers.forEach((container) => {
+        if (container.decoratedComponentInstance.state.cards.length) {
+          alert('You can´t delete a room if there are people in there.. it´s dangerous!');
+          throw BreakException
+        }
+      });
+      this.props.deleteRoom(id);
+    } catch (ex) {
+      if(ex !== BreakException) console.error(ex);
+    }
+  }
+
+  addContainer(team) {
+    if (team !== null) {
+      this.state.containers.push(team);
+    }
+
   }
 
   render() {
@@ -22,23 +44,23 @@ class Room extends Component {
     if (room.format.toLowerCase() === 'bps') {
       teams = <div>
         <div className="row teams">
-          <Team id={room.location + '_og'} position={"OG"} />
-          <Team id={room.location + '_oo'} position={"OO"} />
+          <Team id={room.location + '_og'} position={"OG"} ref={(team) => { this.addContainer(team) }} />
+          <Team id={room.location + '_oo'} position={"OO"} ref={(team) => { this.addContainer(team) }} />
         </div>
         <div className="row teams">
-          <Team id={room.location + '_cg'} position={"CG"} />
-          <Team id={room.location + '_co'} position={"CO"} />
+          <Team id={room.location + '_cg'} position={"CG"} ref={(team) => { this.addContainer(team) }} />
+          <Team id={room.location + '_co'} position={"CO"} ref={(team) => { this.addContainer(team) }} />
         </div>
       </div>;
 
     } else if (room.format.toLowerCase() === 'opd') {
       teams = <div>
         <div className="row teams">
-          <Team id={room.location + '_reg'} position={"Reg"} />
-          <Team id={room.location + '_opp'} position={"Opp"} />
+          <Team id={room.location + '_reg'} position={"Reg"} ref={(team) => { this.addContainer(team) }} />
+          <Team id={room.location + '_opp'} position={"Opp"} ref={(team) => { this.addContainer(team) }} />
         </div>
         <div className="row mt-1">
-          <Team id={room.location + '_ffr'} position={"FFR"} />
+          <Team id={room.location + '_ffr'} position={"FFR"} ref={(team) => { this.addContainer(team) }} />
         </div>
 
       </div>;
@@ -63,13 +85,15 @@ class Room extends Component {
 
         <div className={"teams"}>
           {teams}
-          <Team ref={(dndContainer) => { this.dndContainer = dndContainer; }}
+          <Team ref={(team) => { this.addContainer(team) }}
                 class={"ml-2"} id={room.location + '_judge'} position={"Judges"} />
         </div>
 
-        <button onClick={() => this.deleteRoom(room.id) } className="btn btn-outline-danger btn-circle deleteRoom">
+        <Button outline color="danger deleteRoom"
+                onClick={() => this.deleteRoom(room.id)}
+                className={"btn-circle"}>
           <i className="fa fa-times" aria-hidden="true"/>
-        </button>
+        </Button>
       </div>
     );
   }
