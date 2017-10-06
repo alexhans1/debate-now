@@ -102,16 +102,16 @@ class App extends Component {
                 <ModalBody className={"black"}>
                   <Form onSubmit={this.handleAddRoomSubmit.bind(this)}>
                     <FormGroup row>
-                      <Label for="roomName" sm={3}>Roomname</Label>
-                      <Col sm={9}>
+                      <Label for="roomName" sm={4}>Name / Location</Label>
+                      <Col sm={8}>
                         <Input type="text" onChange={this.handleChangeFor('roomName')}
                                value={this.state.newRoom.roomName}
-                               name="room name" id="roomName" placeholder="Room Name" />
+                               name="room name" id="roomName" placeholder="Room name / location" />
                       </Col>
                     </FormGroup>
                     <FormGroup row>
-                      <Label for="roomFormat" sm={3}>Format</Label>
-                      <Col sm={9}>
+                      <Label for="roomFormat" sm={4}>Format</Label>
+                      <Col sm={8}>
                         <Input type="select" onChange={this.handleChangeFor('roomFormat')}
                                value={this.state.newRoom.roomFormat}
                                name="room format" id="roomFormat">
@@ -121,8 +121,8 @@ class App extends Component {
                       </Col>
                     </FormGroup>
                     <FormGroup row>
-                      <Label for="roomLanguage" sm={3}>Language</Label>
-                      <Col sm={9}>
+                      <Label for="roomLanguage" sm={4}>Language</Label>
+                      <Col sm={8}>
                         <Input type="select" onChange={this.handleChangeFor('roomLanguage')}
                                value={this.state.newRoom.roomLanguage}
                                name="room language" id="roomLanguage">

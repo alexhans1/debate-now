@@ -1,25 +1,11 @@
 import {EventEmitter} from "events";
 import dispatcher from "../dispatcher";
-import {makeid} from '../customUtils';
 import remove from 'lodash/remove';
 
 class RoomStore extends EventEmitter {
   constructor() {
     super();
-    this.rooms = [
-      {
-        location: '1.601',
-        format: 'bps',
-        language: 'en',
-        id: makeid(10),
-      },
-      {
-        location: '1.604',
-        format: 'opd',
-        language: 'de',
-        id: makeid(10),
-      },
-    ]
+    this.rooms = []
   }
 
   createRoom(location, format, language) {
