@@ -11,7 +11,6 @@
     "react-dnd": "^2.5.3",
     "react-dnd-html5-backend": "^2.5.3",
     "react-dom": "^15.6.2",
-    "react-hint": "^2.0.3",
     "react-scripts": "1.0.13",
     "reactstrap": "^5.0.0-alpha.3"
   },
