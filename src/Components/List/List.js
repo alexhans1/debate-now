@@ -5,7 +5,7 @@ import Card from '../Card';
 import { DropTarget } from 'react-dnd';
 import '../../stylesheets/List.css'
 
-import {Button, FormGroup, Label, Input} from 'reactstrap'
+import {FormGroup, Label, Input} from 'reactstrap'
 
 class List extends Component {
 
@@ -142,9 +142,6 @@ class List extends Component {
           <Input type="text" value={this.state.newUser.name} onChange={this.handleChangeFor('name')}
                  name="user name" id="userName" placeholder="Add user" />
         </FormGroup>
-        <Button outline color={"danger"} className={"btn-circle"} onClick={this.createUser.bind(this)}>
-          <i className="fa fa-plus" aria-hidden="true" />
-        </Button>
         {cards.map((card, i) => {
           return (
             <Card
