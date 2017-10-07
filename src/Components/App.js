@@ -84,7 +84,7 @@ class App extends Component {
     }
 
     return (
-      <div className="container mb-5">
+      <div className="container mb-3">
 
         <div id="header" className="row">
           <div className={"mt-2 ml-3"}>
@@ -116,7 +116,7 @@ class App extends Component {
                       <Col sm={8}>
                         <Input type="text" onChange={this.handleChangeFor('roomName')}
                                value={this.state.newRoom.roomName}
-                               name="room name" id="roomName" placeholder="Room name / location" />
+                               name="room name" id="roomName" placeholder="Room name / location" required />
                       </Col>
                     </FormGroup>
                     <FormGroup row>
