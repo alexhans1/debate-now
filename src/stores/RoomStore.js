@@ -49,7 +49,7 @@ class RoomStore extends EventEmitter {
         break;
       }
       default: {
-        console.log('No corresponding action found for requested room action:', action);
+        // do nothing
       }
     }
   }

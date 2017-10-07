@@ -6,6 +6,10 @@ import '../stylesheets/Card.css';
 
 class Card extends Component {
 
+  deleteCard() {
+    this.props.deleteCard(this.props.card.id);
+  }
+
   render() {
     const { card, isDragging, connectDragSource, connectDropTarget } = this.props;
     const opacity = isDragging ? 0.5 : 1;
@@ -26,7 +30,7 @@ class Card extends Component {
             {card.name}
           </span>
 
-        <a className="deleteCard">
+        <a className="deleteCard" onClick={this.deleteCard.bind(this)}>
           <i className="fa fa-times" aria-hidden="true"/>
         </a>
       </div>

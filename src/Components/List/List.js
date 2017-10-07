@@ -4,6 +4,7 @@ import NewUserModal from './NewUserModal';
 import Card from '../Card';
 import { DropTarget } from 'react-dnd';
 import '../../stylesheets/List.css'
+import remove from 'lodash/remove';
 
 import {FormGroup, Label, Input} from 'reactstrap'
 
@@ -127,6 +128,15 @@ class List extends Component {
     }));
   }
 
+  deleteCard(id) {
+    let newUsersArray = this.state.cards.slice();
+    remove(newUsersArray, {id});
+    this.setState({
+      cards: newUsersArray,
+    });
+    this.props.deleteUser(id);
+  }
+
   render() {
     const { cards } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;
@@ -150,7 +160,8 @@ class List extends Component {
               listId={this.props.id}
               card={card}
               removeCard={this.removeCard.bind(this)}
-              moveCard={this.moveCard.bind(this)} />
+              moveCard={this.moveCard.bind(this)}
+              deleteCard={this.deleteCard.bind(this)} />
           );
         })}
 

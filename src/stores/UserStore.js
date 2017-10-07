@@ -5,7 +5,7 @@ import remove from 'lodash/remove';
 class UserStore extends EventEmitter {
   constructor() {
     super();
-    this.users = []
+    this.users = [];
   }
 
   createUser(name, role, format, language) {
@@ -27,7 +27,7 @@ class UserStore extends EventEmitter {
   }
 
   deleteUser(id) {
-    let newUsersArray = this.state.users.slice();
+    let newUsersArray = this.users.slice();
     remove(newUsersArray, {id});
     this.users = newUsersArray;
     this.emit('change');
@@ -48,7 +48,7 @@ class UserStore extends EventEmitter {
         break;
       }
       default: {
-        console.log('No corresponding action found for requested user action:', action);
+        // do nothing
       }
     }
   }

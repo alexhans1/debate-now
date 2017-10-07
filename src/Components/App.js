@@ -90,7 +90,9 @@ class App extends Component {
           <div className={"col-md-10"}>
             {
               this.state.rooms.map((room) => {
-                return <Room key={room.id} room={room} deleteRoom={RoomActions.deleteRoom.bind(this)} />;
+                return <Room key={room.id} room={room}
+                             deleteRoom={RoomActions.deleteRoom.bind(this)}
+                             deleteUser={UserActions.deleteUser.bind(this)} />;
               })
             }
             <div id="addNewRoom" className={"mt-3"}>

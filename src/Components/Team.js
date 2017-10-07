@@ -3,6 +3,7 @@ import update from 'react/lib/update';
 import Card from './Card';
 import { DropTarget } from 'react-dnd';
 import '../stylesheets/Team.css'
+import remove from 'lodash/remove';
 
 class Team extends Component {
 
@@ -43,6 +44,15 @@ class Team extends Component {
     }));
   }
 
+  deleteCard(id) {
+    let newUsersArray = this.state.cards.slice();
+    remove(newUsersArray, {id});
+    this.setState({
+      cards: newUsersArray,
+    });
+    this.props.deleteUser(id);
+  }
+
   render() {
     const { cards } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;
@@ -61,7 +71,8 @@ class Team extends Component {
               listId={this.props.id}
               card={card}
               removeCard={this.removeCard.bind(this)}
-              moveCard={this.moveCard.bind(this)} />
+              moveCard={this.moveCard.bind(this)}
+              deleteCard={this.deleteCard.bind(this)}/>
           );
         })}
       </div>
