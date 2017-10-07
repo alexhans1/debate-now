@@ -77,17 +77,23 @@ class App extends Component {
 
   render() {
 
+    let addRoomNotice = null;
+    if (!this.state.rooms.length) {
+      addRoomNotice = <a onClick={this.toggleModal} className={"text-danger font-weight-bold ml-2 pointer"}
+                         style={{fontSize: 17}}>Add room</a>
+    }
+
     return (
       <div className="container mb-5">
 
         <div id="header" className="row">
-          <div className={"mt-3"}>
-            <h2>Clubabend</h2>
+          <div className={"mt-2 ml-3"}>
+            <h2>Set your debates</h2>
           </div>
         </div>
 
         <div className="row">
-          <div className={"col-md-10"}>
+          <div className={"col-md-10 mb-4"}>
             {
               this.state.rooms.map((room) => {
                 return <Room key={room.id} room={room}
@@ -99,6 +105,8 @@ class App extends Component {
               <Button outline color="danger" onClick={this.toggleModal} className={"btn-circle btn-xl"}>
                 <i className="fa fa-plus" aria-hidden="true"/>
               </Button>
+              {addRoomNotice}
+
               <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal} className={"black"}>Add new room</ModalHeader>
                 <ModalBody className={"black"}>

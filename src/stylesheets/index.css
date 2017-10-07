@@ -30,6 +30,10 @@ body {
   text-transform: uppercase;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .border1 {
   border: solid 1px;
 }
