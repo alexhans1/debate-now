@@ -94,6 +94,7 @@ class App extends Component {
 
         <div className="row">
           <div className={"col-md-10 mb-4"}>
+            <h4>Rooms</h4>
             {
               this.state.rooms.map((room) => {
                 return <Room key={room.id} room={room}
@@ -149,6 +150,7 @@ class App extends Component {
           </div>
 
           <div className={"col-md-2"}>
+            <h4>Users</h4>
             <List key={"userList"}
                   users={this.state.users}
                   createUser={UserActions.createUser.bind(this)}

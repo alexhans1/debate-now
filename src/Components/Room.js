@@ -71,7 +71,7 @@ class Room extends Component {
                 deleteUser={this.props.deleteUser.bind(this)}
                  ref={(team) => { this.addContainer(team) }} />
         </div>
-        <div className="row mt-1">
+        <div className="row teams mt-1">
           <Team id={room.location + '_ffr'} position={"FFR"}
                 deleteUser={this.props.deleteUser.bind(this)}
                  ref={(team) => { this.addContainer(team) }} />
