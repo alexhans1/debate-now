@@ -1,4 +1,4 @@
-# Debate Maker
+# Debate Now
 
 Simple tool to set up club debates for debate societies.<br>
 Supports the use of multiple languages and the following formats
@@ -6,6 +6,8 @@ Supports the use of multiple languages and the following formats
   - Offene Parliamentarische Debatte (OPD)
   
 The project was initially created for the Berlin Debating Union e.V.
+
+Collaborations welcome.
 
 <br><br><br>
 
