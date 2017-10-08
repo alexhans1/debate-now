@@ -34,6 +34,10 @@ body {
   cursor: pointer;
 }
 
+.break-word {
+  word-break: break-all;
+}
+
 .border1 {
   border: solid 1px;
 }

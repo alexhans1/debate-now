@@ -26,9 +26,9 @@ class Card extends Component {
 
     return connectDragSource(connectDropTarget(
       <div className={backgroundColor} style={{ opacity }} >
-        <span>
-            {card.name}
-          </span>
+        <span className={"break-word"}>
+          {card.name}
+        </span>
 
         <a className="deleteCard" onClick={this.deleteCard.bind(this)}>
           <i className="fa fa-times" aria-hidden="true"/>
