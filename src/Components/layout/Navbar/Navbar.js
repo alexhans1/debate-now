@@ -3,7 +3,7 @@ import InfoModal from './InfoModal'
 
 class Navbar extends Component {
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       showModal: false,
@@ -18,20 +18,23 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-2">
-          <img className={"ml-4"} src="images/logo.png" width="120" height="120" alt="" />
-        </div>
-        <div className="col-10">
-          <nav className="navbar pr-5">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-2">
+            <img className={""} src="images/logo.png" width="120" height="120" alt="" />
+          </div>
+          <div className="col-10">
+            <nav className="navbar pr-5">
             <span onClick={this.toggleModal.bind(this)} className={"ml-auto p-2 pointer"}>
               <i className="fa fa-question-circle-o fa-lg" aria-hidden="true" />
             </span>
-          </nav>
-        </div>
+            </nav>
+          </div>
 
-        <InfoModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)} />
+          <InfoModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)} />
+        </div>
       </div>
+
     )
   }
 }
