@@ -19,8 +19,11 @@ class InfoModal extends Component {
         <Modal isOpen={this.props.showModal} toggle={this.toggle}>
           <ModalHeader className={"black"} toggle={this.toggle}>Info</ModalHeader>
           <ModalBody className={"black"}>
-            <p>Created by Alexander Hans for the Berlin Debating Union</p>
-            <p>Collaborations welcome through [github link]</p>
+            <p>Created by Alexander Hans for the Berlin Debating Union.</p>
+            <p>Collaborations welcome via <a target={"_blank"} href="https://github.com/alexhans1/debate-now">
+              https://github.com/alexhans1/debate-now
+            </a>.
+            </p>
           </ModalBody>
           <ModalFooter className={"black"}>
             <Button outline color={"danger"} onClick={this.toggle}>Close</Button>
