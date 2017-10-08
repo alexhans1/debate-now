@@ -1,7 +1,7 @@
 {
-  "name": "debate-maker",
+  "name": "debate-now",
   "version": "0.1.0",
-  "homepage": "https://alexhans1.github.io/debate-maker/",
+  "homepage": "https://alexhans1.github.io/debate-now/",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
