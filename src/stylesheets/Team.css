@@ -6,3 +6,9 @@
   border-style: solid;
   border-width: 1px
 }
+
+@media screen and (max-width: 372px) {
+  .team {
+    width: 160px;
+  }
+}

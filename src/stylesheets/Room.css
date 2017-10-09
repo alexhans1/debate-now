@@ -23,7 +23,10 @@
 .info {
   display: flex;
   justify-content: space-around;
-  /*display: flex;*/
-  /*flex-wrap: wrap;*/
-  /*align-content: center;*/
+}
+
+@media screen and (max-width: 500px) {
+  .info {
+     margin-top: 26px;
+  }
 }
