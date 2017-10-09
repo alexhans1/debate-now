@@ -24,6 +24,13 @@ class InfoModal extends Component {
               https://github.com/alexhans1/debate-now
             </a>.
             </p>
+            <p>
+              If you like this project feel free to donate via &nbsp;
+              <a href="https://www.paypal.me/debatenow" target={"_blank"}>
+                <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png"
+                   alt="PayPal Logo" />
+              </a>.
+            </p>
           </ModalBody>
           <ModalFooter className={"black"}>
             <Button outline color={"danger"} onClick={this.toggle}>Close</Button>

@@ -1,0 +1,9 @@
+@media screen and (min-width: 650px) {
+  #navbar-row {
+    padding: 0 30px;
+  }
+}
+
+.fa-question-circle-o {
+  font-size: 1.64em;
+}
