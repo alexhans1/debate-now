@@ -100,6 +100,7 @@ class App extends Component {
               this.state.rooms.map((room) => {
                 return <Room key={room.id} room={room}
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
+                             updateRoom={RoomActions.updateRoom.bind(this)}
                              deleteUser={UserActions.deleteUser.bind(this)} />;
               })
             }

@@ -15,3 +15,10 @@ export function deleteRoom(id) {
     id,
   });
 }
+
+export function updateRoom(room) {
+  dispatcher.dispatch({
+    type: "UPDATE_ROOM",
+    room,
+  });
+}

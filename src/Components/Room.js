@@ -1,40 +1,93 @@
 import React, { Component } from 'react';
 import Team from './Team';
-import '../stylesheets/Room.css'
+import '../stylesheets/Room.css';
 
-import { Button } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 
 class Room extends Component {
 
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
-      judges: null,
       containers: [],
+      editLocation: false,
+      editFormat: false,
+      editLanguage: false,
+      editableRoom: props.room,
     };
+  }
+
+  checkRoom(includeJudges = true) {
+    let isEmpty = true;
+    let BreakException = {};
+    try {
+      this.state.containers.forEach((container) => {
+        // exclude judges on demand
+        if (container.props.id.indexOf('judge') > 0 && !includeJudges) {
+          return
+        }
+        if (container.decoratedComponentInstance.state.cards.length) {
+          isEmpty = false;
+          throw BreakException
+        }
+      });
+    } catch (ex) {
+      if(ex !== BreakException) console.error(ex);
+    }
+    return isEmpty;
   }
 
   deleteRoom (id) {
     // check if there are users in this room
-    let BreakException = {};
-    try {
-      this.state.containers.forEach((container) => {
-        if (container.decoratedComponentInstance.state.cards.length) {
-          alert('You can´t delete a room if there are people in there.. it´s dangerous!');
-          throw BreakException
-        }
-      });
-      this.props.deleteRoom(id);
-    } catch (ex) {
-      if(ex !== BreakException) console.error(ex);
-    }
+    if (this.checkRoom()) this.props.deleteRoom(id);
+    else alert('You can´t delete a room if there are people in there.. it´s dangerous!');
   }
 
   addContainer(team) {
     if (team !== null) {
       this.state.containers.push(team);
     }
+  }
 
+  toggleEdit = (propertyName) => () => {
+    this.setState({ [propertyName]: !this.state[propertyName], });
+  };
+
+  handleChangeFor = (propertyName, shouldSubmit = false, submitProperty = null) => (event) => {
+    if (propertyName === 'format' && !this.checkRoom(false)) {
+      alert('You can´t change the format id there are people placed in that room as speakers.');
+      return;
+    }
+
+    const editableRoom = {
+      ...this.state.editableRoom,
+      [propertyName]: event.target.value
+    };
+    this.setState(
+      {
+        editableRoom
+      },
+      (shouldSubmit) ? this.handleEditSubmit(submitProperty, editableRoom)(event) : () => {}
+    )
+  };
+
+  handleEditSubmit = (propertyName, givenRoom = null) => (e) => {
+    e.preventDefault();
+
+    let editableRoom = (givenRoom) ? givenRoom : this.state.editableRoom;
+
+    if (!Object.is(editableRoom, this.props.room)) {
+      this.props.updateRoom(editableRoom);
+    }
+    this.setState({
+      [propertyName]: false,
+    });
+  };
+
+  static moveCaretAtEnd(e) {
+    let temp_value = e.target.value;
+    e.target.value = '';
+    e.target.value = temp_value;
   }
 
   render() {
@@ -49,15 +102,15 @@ class Room extends Component {
                 ref={(team) => { this.addContainer(team) }} />
           <Team id={room.location + '_oo'} position={"OO"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }} />
         </div>
         <div className="row teams">
           <Team id={room.location + '_cg'} position={"CG"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }} />
           <Team id={room.location + '_co'} position={"CO"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }} />
         </div>
       </div>;
 
@@ -66,18 +119,69 @@ class Room extends Component {
         <div className="row teams">
           <Team id={room.location + '_reg'} position={"Reg"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }} />
           <Team id={room.location + '_opp'} position={"Opp"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }} />
         </div>
         <div className="row teams mt-1">
           <Team id={room.location + '_ffr'} position={"FFR"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }} />
         </div>
-
       </div>;
+    }
+
+    let location, format, language = null;
+    if (this.state.editLocation) {
+      location = <Form onSubmit={this.handleEditSubmit('editLocation').bind(this)}>
+        <FormGroup>
+          <Input type="text" autoFocus onFocus={Room.moveCaretAtEnd} size={"sm"}
+                 onChange={this.handleChangeFor('location').bind(this)}
+                 value={this.state.editableRoom.location}
+                 name="roomName" id="editLocation" placeholder="Room Name" required />
+        </FormGroup>
+      </Form>
+    } else {
+      location = <span onClick={this.toggleEdit('editLocation').bind(this)} className={"pointer editButtons"}>
+        <b>{room.location}</b>
+      </span>
+    }
+
+    if (this.state.editFormat) {
+      format = <Form onSubmit={this.handleEditSubmit('editFormat').bind(this)}>
+        <FormGroup>
+          <Input type="select" size={"sm"}
+                 onChange={this.handleChangeFor('format', true, 'editFormat').bind(this)}
+                 value={this.state.editableRoom.format} className={"uppercase"}
+                 name="roomFormat" id="editFormat" placeholder="Format" required >
+            <option className={"uppercase"}>opd</option>
+            <option className={"uppercase"}>bps</option>
+          </Input>
+        </FormGroup>
+      </Form>
+    } else {
+      format = <span onClick={this.toggleEdit('editFormat').bind(this)} className={"pointer editButtons"}>
+        <b className={"uppercase"}>{room.format}</b>
+      </span>
+    }
+
+    if (this.state.editLanguage) {
+      language = <Form onSubmit={this.handleEditSubmit('editLanguage').bind(this)}>
+        <FormGroup>
+          <Input type="select" size={"sm"}
+                 onChange={this.handleChangeFor('language', true, 'editLanguage').bind(this)}
+                 value={this.state.editableRoom.language}
+                 name="roomLanguage" id="editLanguage" placeholder="Language" required >
+            <option>de</option>
+            <option>en</option>
+          </Input>
+        </FormGroup>
+      </Form>
+    } else {
+      language = <span onClick={this.toggleEdit('editLanguage').bind(this)} className={"pointer editButtons"}>
+          <b>{room.language}</b>
+        </span>
     }
 
     return (
@@ -85,15 +189,15 @@ class Room extends Component {
         <div className={"row info"}>
           <h5>Room:
             <br/>
-            <b>{room.location}</b>
+            {location}
           </h5>
           <h5>Format:
             <br/>
-            <b className={"uppercase"}>{room.format}</b>
+            {format}
           </h5>
           <h5>Language:
             <br/>
-            <b>{room.language}</b>
+            {language}
           </h5>
         </div>
 
