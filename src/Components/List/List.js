@@ -13,7 +13,7 @@ class List extends Component {
   newUserDefaults = {
     name: '',
     role: 'speaker',
-    format: 'BPS',
+    format: 'bps',
     language: 'de',
   };
 

@@ -22,7 +22,7 @@ class App extends Component {
 
       newRoom: {
         roomName: '',
-        roomFormat: 'BPS',
+        roomFormat: 'bps',
         roomLanguage: 'de',
 
       },
@@ -54,7 +54,7 @@ class App extends Component {
     this.setState({
       newRoom: {
         roomName: '',
-        roomFormat: 'BPS',
+        roomFormat: 'bps',
         roomLanguage: 'de',
       },
       showModal: false,
@@ -126,10 +126,10 @@ class App extends Component {
                       <Label for="roomFormat" sm={4}>Format</Label>
                       <Col sm={8}>
                         <Input type="select" onChange={this.handleChangeFor('roomFormat')}
-                               value={this.state.newRoom.roomFormat}
+                               value={this.state.newRoom.roomFormat} className={"uppercase"}
                                name="room format" id="roomFormat">
-                          <option>BPS</option>
-                          <option>OPD</option>
+                          <option className={"uppercase"}>bps</option>
+                          <option className={"uppercase"}>opd</option>
                         </Input>
                       </Col>
                     </FormGroup>
