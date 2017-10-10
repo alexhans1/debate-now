@@ -4,10 +4,10 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import '../stylesheets/App.css';
 import Room from "./Room";
 import List from "./List/List";
-import RoomStore from '../stores/RoomStore'
-import UserStore from '../stores/UserStore'
-import * as RoomActions from '../actions/RoomActions'
-import * as UserActions from '../actions/UserActions'
+import RoomStore from '../stores/RoomStore';
+import UserStore from '../stores/UserStore';
+import * as RoomActions from '../actions/RoomActions';
+import * as UserActions from '../actions/UserActions';
 
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 
@@ -84,7 +84,7 @@ class App extends Component {
     }
 
     return (
-      <div className="container mb-3">
+      <div className="container mb-5">
 
         <div id="header" className="row">
           <div className={"mt-2 ml-3"}>

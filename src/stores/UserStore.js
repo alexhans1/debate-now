@@ -5,7 +5,15 @@ import remove from 'lodash/remove';
 class UserStore extends EventEmitter {
   constructor() {
     super();
-    this.users = [];
+    this.users = [
+      // {
+      //   id: Math.random(),
+      //   name: 'Alex',
+      //   role: (Math.random() < 0.5) ? 'speaker' : 'judge',
+      //   format: (Math.random() < 0.5) ? 'bps' : 'opd',
+      //   language: (Math.random() < 0.5) ? 'de' : 'en',
+      // },
+    ];
   }
 
   createUser(name, role, format, language) {
