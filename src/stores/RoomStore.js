@@ -9,7 +9,7 @@ class RoomStore extends EventEmitter {
       // {
       //   id: 1,
       //   location: 123,
-      //   format: 'opd',
+      //   format: 'bps',
       //   language: 'de',
       // }
     ]

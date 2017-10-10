@@ -97,7 +97,7 @@ class App extends Component {
             <h4>Rooms</h4>
             <hr/>
             {
-              this.state.rooms.map((room) => {
+              this.state.rooms.sort((a, b) => { return b.id - a.id }).map((room) => {
                 return <Room key={room.id} room={room}
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
                              updateRoom={RoomActions.updateRoom.bind(this)}

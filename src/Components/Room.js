@@ -26,7 +26,7 @@ class Room extends Component {
         if (container.props.id.indexOf('judge') > 0 && !includeJudges) {
           return
         }
-        if (container.decoratedComponentInstance.state.cards.length) {
+        if (container.decoratedComponentInstance && container.decoratedComponentInstance.state.cards.length) {
           isEmpty = false;
           throw BreakException
         }
@@ -51,11 +51,25 @@ class Room extends Component {
 
   toggleEdit = (propertyName) => () => {
     this.setState({ [propertyName]: !this.state[propertyName], });
+
+    // add event listener for Escape event
+    document.addEventListener("keydown", this.handleKeyPress);
+  };
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Escape') {
+      document.removeEventListener("keydown", this.handleKeyPress);
+      this.setState({
+        editLocation: false,
+        editFormat: false,
+        editLanguage: false,
+      });
+    }
   };
 
   handleChangeFor = (propertyName, shouldSubmit = false, submitProperty = null) => (event) => {
     if (propertyName === 'format' && !this.checkRoom(false)) {
-      alert('You can´t change the format id there are people placed in that room as speakers.');
+      alert('You can´t change the format if speakers are already assigned.');
       return;
     }
 
