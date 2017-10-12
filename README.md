@@ -1,5 +1,7 @@
 # Debate Now
 
+https://alexhans1.github.io/debate-now
+
 Simple tool to set up club debates for debate societies.<br>
 Supports the use of multiple languages and the following formats
   - British Parliamentary (BPS)
