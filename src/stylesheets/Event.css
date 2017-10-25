@@ -1,0 +1,13 @@
+.title {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.model-background {
+  background-color: var(--light-olive);
+}

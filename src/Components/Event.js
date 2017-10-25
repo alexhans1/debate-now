@@ -6,8 +6,10 @@ import Room from "./Room";
 import List from "./List/List";
 import RoomStore from '../stores/RoomStore'
 import UserStore from '../stores/UserStore'
+import EventStore from '../stores/EventStore'
 import * as RoomActions from '../actions/RoomActions'
 import * as UserActions from '../actions/UserActions'
+import * as EventActions from '../actions/EventActions'
 
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 
@@ -19,6 +21,7 @@ class App extends Component {
       // initialize with sample data
       users: UserStore.getAllUsers(),
       rooms: RoomStore.getAllRooms(),
+      events: EventActions.getAllEvents(),
 
       newRoom: {
         roomName: '',
@@ -71,6 +74,12 @@ class App extends Component {
     UserStore.on('change', () => {
       this.setState({
         users: UserStore.getAllUsers(),
+      });
+    });
+
+    EventStore.on('change', () => {
+      this.setState({
+        users: EventStore.getAllUsers(),
       });
     });
   }
