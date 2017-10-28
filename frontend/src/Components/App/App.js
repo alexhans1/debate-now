@@ -67,7 +67,7 @@ class App extends Component {
             <div className={"row"}>
               {
                 openEvents.map((event) => {
-                  return <div className={"col-md-2 eventTile border--olive bg-maroon pointer"}>
+                  return <div className={"col-md-2 eventTile border--olive pointer"}>
                     <EventTile key={event.id} event={event} />
                   </div>
                 })
