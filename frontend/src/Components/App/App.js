@@ -47,7 +47,6 @@ class App extends Component {
       if (a.createdAt < b.createdAt) {
         return -1;
       }
-      // a muss gleich b sein
       return 0;
     });
 
@@ -67,9 +66,7 @@ class App extends Component {
             <div className={"row"}>
               {
                 openEvents.map((event) => {
-                  return <div className={"col-md-2 eventTile border--olive pointer"}>
-                    <EventTile key={event.id} event={event} />
-                  </div>
+                  return <EventTile key={event.id} event={event} />
                 })
               }
             </div>
@@ -83,9 +80,7 @@ class App extends Component {
             <div className={"row"}>
               {
                 closedEvents.map((event) => {
-                  return <div className={"col eventTile border--olive bg-navy"}>
-                    <EventTile key={event.id} event={event} />
-                  </div>
+                  return <EventTile key={event.id} event={event} />
                 })
               }
             </div>
