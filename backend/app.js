@@ -39,10 +39,8 @@ sequelize.authenticate()
 });
 
 //setup routes URIs
-const index = require('./routes/index');
 const roomApi = require('./routes/roomApi');
 const eventApi = require('./routes/eventApi')(sequelize);
-app.use('/', index);
 app.use('/room', roomApi);
 app.use('/event', eventApi);
 

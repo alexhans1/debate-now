@@ -21,5 +21,12 @@ module.exports = function (sequelize) {
 			allowNull: false,
 			defaultValue: 'OPEN',
 		},
+		date: {
+			type: Sequelize.DATE,
+		},
+		password: {
+			type: Sequelize.STRING,
+			allowNull: false,
+		},
 	});
 };

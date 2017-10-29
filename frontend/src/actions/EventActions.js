@@ -6,11 +6,13 @@ export function getAllEvents() {
   });
 }
 
-export function createEvent(institution, type) {
+export function createEvent(institution, type, date, password) {
   dispatcher.dispatch({
     type: "CREATE_EVENT",
     institution,
     eventType: type,
+    date,
+    password,
   });
 }
 

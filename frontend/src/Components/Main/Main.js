@@ -17,13 +17,17 @@ class Main extends Component {
     this.state = {
       // get all Events
       events: [],
-      newEvent: {
-        institution: '',
-        type: '',
-      },
+      newEvent: this.newEventDefaults,
       showModal: false,
     };
   }
+
+  newEventDefaults = {
+    institution: '',
+    type: '',
+    date: (new Date()).toISOString().substring(0,10),
+    password: '',
+  };
 
   componentWillMount() {
     EventStore.on('change', this.getEvents);
@@ -38,11 +42,10 @@ class Main extends Component {
     this.setState({
       events: EventStore.getAllEvents(),
     });
-
   }
 
-  static createEvent (institution, type) {
-    EventActions.createEvent(institution, type);
+  static createEvent (institution, type, date, password) {
+    EventActions.createEvent(institution, type, date, password);
   }
 
   handleChangeFor = (propertyName) => (e) => {
@@ -56,12 +59,12 @@ class Main extends Component {
 
   handleAddEventSubmit() {
     if (this.state.newEvent.institution && this.state.newEvent.type) {
-      Main.createEvent(this.state.newEvent.institution, this.state.newEvent.type);
+      Main.createEvent(this.state.newEvent.institution,
+        this.state.newEvent.type,
+        this.state.newEvent.date,
+        this.state.newEvent.password);
       this.setState({
-        newEvent: {
-          institution: '',
-          type: '',
-        },
+        newEvent: this.newEventDefaults,
         showModal: false,
       });
     }

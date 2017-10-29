@@ -6,9 +6,6 @@ class NewEventModal extends Component {
 
   constructor() {
     super();
-    this.state = {
-      alertClass: ''
-    };
     this.toggle = this.toggle.bind(this);
   }
 
@@ -18,12 +15,8 @@ class NewEventModal extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.props.newEvent.institution && this.props.newEvent.type) {
+    if (this.props.newEvent.institution && this.props.newEvent.type && this.props.newEvent.password) {
       this.props.handleSubmit();
-    } else {
-      this.setState({
-        alertClass: 'border--red',
-      });
     }
   }
 
@@ -35,6 +28,7 @@ class NewEventModal extends Component {
           <ModalHeader className={"black"} toggle={this.toggle}>Add new event</ModalHeader>
           <ModalBody className={"black"}>
             <Form onSubmit={this.handleSubmit.bind(this)}>
+
               <FormGroup row>
                 <Label for="eventInstitution" sm={3}>Institution</Label>
                 <Col sm={9}>
@@ -44,6 +38,7 @@ class NewEventModal extends Component {
                          placeholder="BDU / Berlin IV 2018" required />
                 </Col>
               </FormGroup>
+
               <FormGroup row>
                 <Label for="eventRole" sm={3}>Type</Label>
                 <Col sm={9}>
@@ -51,6 +46,25 @@ class NewEventModal extends Component {
                          value={this.props.newEvent.type}
                          name="event type" id="eventType"
                          placeholder="Club Debate / Berlin IV Semifinals" required />
+                </Col>
+              </FormGroup>
+
+              <FormGroup row>
+                <Label for="eventDate" sm={3}>Date</Label>
+                <Col sm={9}>
+                  <Input type="date" onChange={this.props.handleChange('date').bind(this)}
+                         value={this.props.newEvent.date}
+                         name="event date" id="eventDate" />
+                </Col>
+              </FormGroup>
+
+              <FormGroup row>
+                <Label for="eventPassword" sm={3}>Password</Label>
+                <Col sm={9}>
+                  <Input type="text" onChange={this.props.handleChange('password').bind(this)}
+                         value={this.props.newEvent.password}
+                         name="event password" id="eventPassword"
+                         placeholder="Password for editing this event" required />
                 </Col>
               </FormGroup>
 

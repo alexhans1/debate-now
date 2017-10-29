@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../stylesheets/Main.css';
-import { Link } from 'react-router-dom';
 import '../../stylesheets/btn-circle.css';
+import { Link } from 'react-router-dom';
+import DeleteEventModal from './DeleteEventModal';
 import * as EventActions from '../../actions/EventActions';
 
 import {Button} from 'reactstrap';
@@ -12,6 +13,7 @@ class InfoModal extends Component {
     super();
     this.state = {
       isHovering: false,
+      showModal: false,
     }
   }
 
@@ -23,8 +25,14 @@ class InfoModal extends Component {
     this.setState({isHovering: false});
   }
 
-  handleDeleteClick = (id) => (e) => {
-    e.preventDefault();
+  toggleModal(e) {
+    if (!this.state.showModal) e.preventDefault();
+    this.setState({
+      showModal: !this.state.showModal,
+    });
+  }
+
+  handleDeleteClick(id) {
     EventActions.deleteEvent(id);
   };
 
@@ -39,9 +47,9 @@ class InfoModal extends Component {
       }
     }
 
-    const day = event.createdAt.substring(8,10),
-      month = event.createdAt.substring(5,7),
-      year = event.createdAt.substring(0,4);
+    const day = event.date.substring(8,10),
+      month = event.date.substring(5,7),
+      year = event.date.substring(0,4);
 
     return (
       <div onMouseOver={this.handleMouseOver.bind(this)} onMouseOut={this.handleMouseOut.bind(this)}
@@ -61,10 +69,13 @@ class InfoModal extends Component {
           </p>
 
           <Button outline color={"info"} className={"btn-circle-sm deleteEvent"}
-                  onClick={this.handleDeleteClick(event.id).bind(this)}>
+                  onClick={this.toggleModal.bind(this)}>
             <i className="fa fa-times" aria-hidden="true" />
           </Button>
         </Link>
+
+        <DeleteEventModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
+                       event={event} handleSubmit={this.handleDeleteClick.bind(this)} />
       </div>
     );
   }

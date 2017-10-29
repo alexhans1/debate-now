@@ -36,6 +36,8 @@ module.exports = function (sequelize) {
 			event = await Event.create({
 				institution: req.body.institution,
 				type: req.body.type,
+				date: req.body.date,
+				password: req.body.password,
 			});
 			console.info('Creating new event.');
 			res.send(event.toJSON());
@@ -50,6 +52,9 @@ module.exports = function (sequelize) {
 			Event.update({
 				institution: req.body.institution,
 				type: req.body.type,
+        status: req.body.status,
+        date: req.body.date,
+        password: req.body.password,
 			}, {
 				where: {
 					id: req.params.id

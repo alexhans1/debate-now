@@ -24,8 +24,8 @@ class EventStore extends EventEmitter {
     return this.events;
   }
 
-  async createEvent(institution, type) {
-    if (institution && type) {
+  async createEvent(institution, type, date, password) {
+    if (institution && type && password) {
       try {
         await fetch('event', {
           method: 'POST',
@@ -35,6 +35,8 @@ class EventStore extends EventEmitter {
           body: JSON.stringify({
             institution,
             type,
+            date,
+            password,
           })
         }).then((response) => {
           if (response.ok) {
@@ -70,7 +72,7 @@ class EventStore extends EventEmitter {
         break;
       }
       case "CREATE_EVENT": {
-        this.createEvent(action.institution, action.eventType);
+        this.createEvent(action.institution, action.eventType, action.date, action.password);
         break;
       }
       case "DELETE_EVENT": {
