@@ -80,10 +80,10 @@ class Main extends Component {
     let openEvents = this.state.events.filter((event) => {
       return event.status === 'OPEN';
     }).sort((a, b) => {
-      if (b.createdAt > a.createdAt) {
+      if (b.date > a.date) {
         return 1;
       }
-      if (b.createdAt < a.createdAt) {
+      if (b.date < a.date) {
         return -1;
       }
       return 0;
@@ -92,10 +92,10 @@ class Main extends Component {
     let closedEvents = this.state.events.filter((event) => {
       return event.status === 'CLOSED';
     }).sort((a, b) => {
-      if (a.createdAt > b.createdAt) {
+      if (a.date > b.date) {
         return 1;
       }
-      if (a.createdAt < b.createdAt) {
+      if (a.date < b.date) {
         return -1;
       }
       return 0;
