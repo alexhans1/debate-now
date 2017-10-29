@@ -25,12 +25,9 @@ class Main extends Component {
   }
 
   getEvents() {
-    let eventPromise = EventStore.getAllEvents();
-    eventPromise.then((events) => {
-      this.setState({
-        events,
-      });
-    })
+    this.setState({
+      events: EventStore.getAllEvents(),
+    });
 
   }
 
