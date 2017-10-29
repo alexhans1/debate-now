@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../stylesheets/App.css';
+import { Link } from 'react-router-dom';
 
 class InfoModal extends Component {
 
@@ -19,16 +20,15 @@ class InfoModal extends Component {
   }
 
   render() {
+    const { event } = this.props;
 
     let hoverStyle = {};
     if (this.state.isHovering) {
       hoverStyle = {
         backgroundColor: "#e9352c",
         color: "#e5e5e5",
-      };
+      }
     }
-
-    const { event } = this.props;
 
     const day = event.createdAt.substring(8,10),
       month = event.createdAt.substring(5,7),
@@ -36,9 +36,9 @@ class InfoModal extends Component {
 
     return (
       <div onMouseOver={this.handleMouseOver.bind(this)} onMouseOut={this.handleMouseOut.bind(this)}
-           style={hoverStyle}
-           className={"col-md-2 pointer eventTile border--olive bg-navy"}>
-        <div>
+           className={"col-md-2 eventTile bg-navy"}
+           style={hoverStyle}>
+        <Link to={"/event/" + event.id}>
           <p>
             {event.institution}
           </p>
@@ -50,7 +50,7 @@ class InfoModal extends Component {
           <p>
             {day}.{month}.{year}
           </p>
-        </div>
+        </Link>
       </div>
     );
   }

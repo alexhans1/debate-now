@@ -12,8 +12,6 @@ class EventStore extends EventEmitter {
       await fetch('event')
       .then(res => res.json())
       .then(events => {
-        window.events = events;
-        console.log(events);
         this.events = events;
         this.emit('change');
       });

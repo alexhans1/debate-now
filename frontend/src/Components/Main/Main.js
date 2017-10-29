@@ -1,40 +1,49 @@
 import React, { Component } from 'react';
 import '../../stylesheets/App.css';
 import EventTile from "./EventTile";
-import EventStore from '../../stores/EventStore'
-import * as EventActions from '../../actions/EventActions'
+import EventStore from '../../stores/EventStore';
+import * as EventActions from '../../actions/EventActions';
 
-class App extends Component {
+class Main extends Component {
 
   constructor() {
     super();
+    this.getEvents = this.getEvents.bind(this);
     this.state = {
       // get all Events
       events: [],
     };
-
-    EventActions.getAllEvents();
   }
 
   componentWillMount() {
-    EventStore.on('change', () => {
+    EventStore.on('change', this.getEvents);
+    EventActions.getAllEvents();
+  }
+
+  componentWillUnmount() {
+    EventStore.removeListener('change', this.getEvents);
+  }
+
+  getEvents() {
+    let eventPromise = EventStore.getAllEvents();
+    eventPromise.then((events) => {
       this.setState({
-        events: EventStore.getAllEvents(),
+        events,
       });
-    });
+    })
+
   }
 
   render() {
     let openEvents = this.state.events.filter((event) => {
       return event.status === 'OPEN';
     }).sort((a, b) => {
-      if (a.createdAt > b.createdAt) {
+      if (b.createdAt > a.createdAt) {
         return 1;
       }
-      if (a.createdAt < b.createdAt) {
+      if (b.createdAt < a.createdAt) {
         return -1;
       }
-      // a muss gleich b sein
       return 0;
     });
 
@@ -75,7 +84,7 @@ class App extends Component {
 
         <div className="row">
           <div className={"col-md-12 mb-4"}>
-            <h4>Close</h4>
+            <h4>Closed</h4>
             <hr/>
             <div className={"row"}>
               {
@@ -93,4 +102,4 @@ class App extends Component {
 
 }
 
-export default App;
+export default Main;

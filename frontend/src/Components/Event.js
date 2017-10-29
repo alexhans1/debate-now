@@ -6,22 +6,21 @@ import Room from "./Room";
 import List from "./List/List";
 import RoomStore from '../stores/RoomStore'
 import UserStore from '../stores/UserStore'
-import EventStore from '../stores/EventStore'
 import * as RoomActions from '../actions/RoomActions'
 import * as UserActions from '../actions/UserActions'
-import * as EventActions from '../actions/EventActions'
 
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 
-class App extends Component {
+class Event extends Component {
 
   constructor() {
     super();
+    this.getRooms = this.getRooms.bind(this);
+    this.getUsers = this.getUsers.bind(this);
     this.state = {
       // initialize with sample data
       users: UserStore.getAllUsers(),
       rooms: RoomStore.getAllRooms(),
-      events: EventActions.getAllEvents(),
 
       newRoom: {
         roomName: '',
@@ -65,22 +64,24 @@ class App extends Component {
   };
 
   componentWillMount() {
-    RoomStore.on('change', () => {
-      this.setState({
-        rooms: RoomStore.getAllRooms(),
-      });
-    });
+    RoomStore.on('change',this.getRooms);
+    UserStore.on('change',this.getUsers);
+  }
 
-    UserStore.on('change', () => {
-      this.setState({
-        users: UserStore.getAllUsers(),
-      });
-    });
+  componentWillUnmount() {
+    RoomStore.removeListener('change',this.getRooms);
+    UserStore.removeListener('change',this.getUsers);
+  }
 
-    EventStore.on('change', () => {
-      this.setState({
-        users: EventStore.getAllUsers(),
-      });
+  getRooms() {
+    this.setState({
+      rooms: RoomStore.getAllRooms(),
+    });
+  }
+
+  getUsers() {
+    this.setState({
+      users: UserStore.getAllUsers(),
     });
   }
 
@@ -179,4 +180,4 @@ class App extends Component {
 
 }
 
-export default DragDropContext(HTML5Backend)(App);
+export default DragDropContext(HTML5Backend)(Event);
