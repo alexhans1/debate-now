@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Team from './Team';
-import '../stylesheets/Room.css'
+import '../stylesheets/Room.css';
+import '../stylesheets/btn-circle.css';
 
 import { Button } from 'reactstrap';
 

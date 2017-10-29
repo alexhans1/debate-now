@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import '../../stylesheets/Main.css';
 import { Link } from 'react-router-dom';
+import '../../stylesheets/btn-circle.css';
+import * as EventActions from '../../actions/EventActions';
+
+import {Button} from 'reactstrap';
 
 class InfoModal extends Component {
 
@@ -18,6 +22,11 @@ class InfoModal extends Component {
   handleMouseOut() {
     this.setState({isHovering: false});
   }
+
+  handleDeleteClick = (id) => (e) => {
+    e.preventDefault();
+    EventActions.deleteEvent(id);
+  };
 
   render() {
     const { event } = this.props;
@@ -50,6 +59,11 @@ class InfoModal extends Component {
           <p>
             {day}.{month}.{year}
           </p>
+
+          <Button outline color={"info"} className={"btn-circle-sm deleteEvent"}
+                  onClick={this.handleDeleteClick(event.id).bind(this)}>
+            <i className="fa fa-times" aria-hidden="true" />
+          </Button>
         </Link>
       </div>
     );

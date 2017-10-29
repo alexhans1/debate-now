@@ -13,3 +13,10 @@ export function createEvent(institution, type) {
     eventType: type,
   });
 }
+
+export function deleteEvent(id) {
+  dispatcher.dispatch({
+    type: "DELETE_EVENT",
+    id,
+  });
+}

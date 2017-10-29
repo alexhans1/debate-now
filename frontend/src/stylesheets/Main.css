@@ -40,3 +40,9 @@
   color: #e5e5e5;
   text-decoration: none;
 }
+
+.deleteEvent {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}

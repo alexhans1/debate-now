@@ -47,6 +47,22 @@ class EventStore extends EventEmitter {
     }
   }
 
+  async deleteEvent(id) {
+    if (id) {
+      try {
+        await fetch('event/' + id, {
+          method: 'DELETE',
+        }).then((response) => {
+          if (response.ok) {
+            this.fetchEvents();
+          }
+        });
+      } catch (ex) {
+          console.error(ex);
+      }
+    }
+  }
+
   handleAction(action) {
     switch (action.type){
       case "GET_EVENTS": {
@@ -55,6 +71,10 @@ class EventStore extends EventEmitter {
       }
       case "CREATE_EVENT": {
         this.createEvent(action.institution, action.eventType);
+        break;
+      }
+      case "DELETE_EVENT": {
+        this.deleteEvent(action.id);
         break;
       }
       default: {
