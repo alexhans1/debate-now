@@ -101,11 +101,11 @@ class Main extends Component {
     return (
       <div className="container mb-3">
 
-        <div id="header" className="row justify-content-between">
-          <div className={"mt-2 ml-3"}>
+        <div id="header" className="row mb-2">
+          <div className={"col-md-6 mt-2"}>
             <h2>Current Events</h2>
           </div>
-          <div className={'mt-2'}>
+          <div className={'col-md-6 mt-2 d-flex justify-content-end'}>
             <Button size={"lg"} color={"danger"} onClick={this.toggleModal.bind(this)}>
               <i className="fa fa-plus-circle" aria-hidden="true" /> Add Event
             </Button>
