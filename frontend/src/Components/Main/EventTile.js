@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../stylesheets/App.css';
+import '../../stylesheets/Main.css';
 import { Link } from 'react-router-dom';
 
 class InfoModal extends Component {
@@ -36,7 +36,7 @@ class InfoModal extends Component {
 
     return (
       <div onMouseOver={this.handleMouseOver.bind(this)} onMouseOut={this.handleMouseOut.bind(this)}
-           className={"col-md-2 eventTile bg-navy"}
+           className={"col-md-2 mb-3 eventTile bg-navy"}
            style={hoverStyle}>
         <Link to={"/event/" + event.id}>
           <p>

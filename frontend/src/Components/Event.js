@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import '../stylesheets/App.css';
+import '../stylesheets/Main.css';
 import Room from "./Room";
 import List from "./List/List";
 import RoomStore from '../stores/RoomStore'

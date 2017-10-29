@@ -28,7 +28,7 @@ class List extends Component {
       showModal: false,
     };
 
-    this.handleAddRoomSubmit = this.handleAddRoomSubmit.bind(this);
+    this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -48,6 +48,10 @@ class List extends Component {
     document.addEventListener("keypress", this.handleKeyPress.bind(this));
   }
 
+  componentWillUnmount(){
+    document.removeEventListener("keypress", this.handleKeyPress.bind(this));
+  }
+
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       if (this.state.newUser.name === '') {
@@ -63,12 +67,6 @@ class List extends Component {
     }
   }
 
-  createUser(name, role, format, language) {
-    this.props.createUser(
-      name, role, format, language
-    )
-  }
-
   handleChangeFor = (propertyName) => (event) => {
     const { newUser } = this.state;
     const userToAdd = {
@@ -78,7 +76,7 @@ class List extends Component {
     this.setState({ newUser: userToAdd, });
   };
 
-  handleAddRoomSubmit() {
+  handleAddUserSubmit() {
     if (this.state.newUser.name !== '') {
       this.props.createUser(
         this.state.newUser.name, this.state.newUser.role,
@@ -168,7 +166,7 @@ class List extends Component {
         {/*initialize new user modal*/}
         <NewUserModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
                       handleChange={this.handleChangeFor} newUser={this.state.newUser}
-                      handleSubmit={this.handleAddRoomSubmit} />
+                      handleSubmit={this.handleAddUserSubmit} />
       </div>
     );
   }

@@ -5,3 +5,11 @@ export function getAllEvents() {
     type: "GET_EVENTS",
   });
 }
+
+export function createEvent(institution, type) {
+  dispatcher.dispatch({
+    type: "CREATE_EVENT",
+    institution,
+    eventType: type,
+  });
+}

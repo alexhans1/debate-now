@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import '../../stylesheets/App.css';
+import '../../stylesheets/Main.css';
 import EventTile from "./EventTile";
+import NewEventModal from "./NewEventModal";
 import EventStore from '../../stores/EventStore';
 import * as EventActions from '../../actions/EventActions';
+
+import {Button} from 'reactstrap';
 
 class Main extends Component {
 
   constructor() {
     super();
     this.getEvents = this.getEvents.bind(this);
+    Main.createEvent = Main.createEvent.bind(this);
+    this.handleAddEventSubmit = this.handleAddEventSubmit.bind(this);
     this.state = {
       // get all Events
       events: [],
+      newEvent: {
+        institution: '',
+        type: '',
+      },
+      showModal: false,
     };
   }
 
@@ -29,6 +39,38 @@ class Main extends Component {
       events: EventStore.getAllEvents(),
     });
 
+  }
+
+  static createEvent (institution, type) {
+    EventActions.createEvent(institution, type);
+  }
+
+  handleChangeFor = (propertyName) => (e) => {
+    const { newEvent } = this.state;
+    const eventToAdd = {
+      ...newEvent,
+      [propertyName]: e.target.value
+    };
+    this.setState({ newEvent: eventToAdd, });
+  };
+
+  handleAddEventSubmit() {
+    if (this.state.newEvent.institution && this.state.newEvent.type) {
+      Main.createEvent(this.state.newEvent.institution, this.state.newEvent.type);
+      this.setState({
+        newEvent: {
+          institution: '',
+          type: '',
+        },
+        showModal: false,
+      });
+    }
+  };
+
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
   }
 
   render() {
@@ -59,9 +101,14 @@ class Main extends Component {
     return (
       <div className="container mb-3">
 
-        <div id="header" className="row">
+        <div id="header" className="row justify-content-between">
           <div className={"mt-2 ml-3"}>
             <h2>Current Events</h2>
+          </div>
+          <div className={'mt-2'}>
+            <Button size={"lg"} color={"danger"} onClick={this.toggleModal.bind(this)}>
+              <i className="fa fa-plus-circle" aria-hidden="true" /> Add Event
+            </Button>
           </div>
         </div>
 
@@ -93,6 +140,9 @@ class Main extends Component {
           </div>
         </div>
 
+        <NewEventModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
+                      handleChange={this.handleChangeFor} newEvent={this.state.newEvent}
+                      handleSubmit={this.handleAddEventSubmit} />
       </div>
     );
   }
