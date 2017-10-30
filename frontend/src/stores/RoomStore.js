@@ -51,38 +51,56 @@ class RoomStore extends EventEmitter {
     }
   }
 
-  updateRoom(room) {
+  async updateRoom(room) {
     if (typeof room !== 'object') {
       console.error('Wrong type at updateRoom in RoomStore.');
       return
     }
 
     try {
-      let newRoomsArray = this.rooms.slice();
-      remove(newRoomsArray, {id: room.id});
-      newRoomsArray.push(
-        {
+      await fetch('/room/' + room.id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           location: room.location,
           format: room.format,
           language: room.language,
-          id: room.id,
+        })
+      }).then((response) => {
+        if (response.ok) {
+          let newRoomsArray = this.rooms.slice();
+          remove(newRoomsArray, {id: room.id});
+          newRoomsArray.push(
+            {
+              location: room.location,
+              format: room.format,
+              language: room.language,
+              id: room.id,
+              eventId: room.eventId,
+            }
+          );
+          this.rooms = newRoomsArray;
+          this.emit('change');
         }
-      );
-      this.rooms = newRoomsArray;
-      this.emit('change');
+      });
     } catch (ex) {
       console.error(ex);
     }
   }
 
-  async deleteRoom(id, eventId) {
+  async deleteRoom(id) {
     if (id) {
       try {
         await fetch('/room/' + id, {
           method: 'DELETE',
         }).then((response) => {
           if (response.ok) {
-            this.fetchRooms(eventId);
+            let newRoomsArray = this.rooms.slice();
+            remove(newRoomsArray, {id});
+            this.rooms = newRoomsArray;
+            this.emit('change');
           }
         });
       } catch (ex) {
@@ -90,13 +108,6 @@ class RoomStore extends EventEmitter {
       }
     }
   }
-
-  // deleteRoom(id) {
-  //   let newRoomsArray = this.rooms.slice();
-  //   remove(newRoomsArray, {id});
-  //   this.rooms = newRoomsArray;
-  //   this.emit('change');
-  // }
 
   getAllRooms() {
     return this.rooms;
@@ -113,7 +124,7 @@ class RoomStore extends EventEmitter {
         break;
       }
       case "DELETE_ROOM": {
-        this.deleteRoom(action.id, action.eventId);
+        this.deleteRoom(action.id);
         break;
       }
       case "UPDATE_ROOM": {
