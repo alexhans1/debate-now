@@ -26,7 +26,6 @@ class Event extends Component {
         roomName: '',
         roomFormat: 'bps',
         roomLanguage: 'de',
-
       },
       showModal: false,
     };
@@ -105,12 +104,24 @@ class Event extends Component {
       return user.position === null;
     });
 
+    let header = <h3>Set your debates</h3>;
+    if (this.props.location.state) {
+      header = <h3>
+        <b>
+          {this.props.location.state.event.institution || "Set your debates"}
+        </b> - {this.props.location.state.event.type}&nbsp;&nbsp;
+        {this.props.location.state.event.date.substring(8,10)}.
+        {this.props.location.state.event.date.substring(5,7)}.
+        {this.props.location.state.event.date.substring(0,4)}
+      </h3>
+    }
+
     return (
       <div className="container mb-5">
 
         <div id="header" className="row">
           <div className={"mt-2 ml-3"}>
-            <h2>Set your debates</h2>
+            {header}
           </div>
         </div>
 

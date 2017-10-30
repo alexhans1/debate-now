@@ -55,7 +55,7 @@ class EventTile extends Component {
       <div onMouseOver={this.handleMouseOver.bind(this)} onMouseOut={this.handleMouseOut.bind(this)}
            className={"col-md-2 mb-3 eventTile bg-navy"}
            style={hoverStyle}>
-        <Link to={"/event/" + event.id}>
+        <Link to={{ pathname: '/event/' + event.id, state: { event } }}>
           <p>
             {event.institution}
           </p>
