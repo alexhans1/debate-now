@@ -114,7 +114,7 @@ class Event extends Component {
             <h4>Rooms</h4>
             <hr/>
             {
-              this.state.rooms.map((room) => {
+              this.state.rooms.sort((a, b) => { return b.id - a.id }).map((room) => {
                 let users = this.state.users.filter((user) => {
                   return user.roomId === room.id;
                 });
@@ -122,7 +122,7 @@ class Event extends Component {
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
                              updateRoom={RoomActions.updateRoom.bind(this)}
                              deleteUser={UserActions.deleteUser.bind(this)} />;
-              }).sort((a, b) => { return b.id - a.id })
+              })
             }
             <div id="addNewRoom" className={"mt-3"}>
               <Button color="danger" onClick={this.toggleModal} className={"btn-circle btn-xl"}>
