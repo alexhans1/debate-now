@@ -11,10 +11,19 @@ class myNavbar extends Component {
     super();
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.closeToggle = this.closeToggle.bind(this);
     this.state = {
       showModal: false,
       isOpen: false,
     };
+  }
+
+  closeToggle() {
+    if (this.state.isOpen){
+      this.setState({
+        isOpen: false,
+      });
+    }
   }
 
   toggleNavbar() {
@@ -40,7 +49,7 @@ class myNavbar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <Link to={"/"} className={"nav-link"}>
+                <Link to={"/"} onClick={this.closeToggle} className={"nav-link"}>
                   Home
                 </Link>
               </NavItem>
