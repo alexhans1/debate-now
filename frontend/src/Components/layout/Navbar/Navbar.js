@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import InfoModal from './InfoModal'
-import '../../../stylesheets/Navbar.css';
-
 
 class Navbar extends Component {
 
