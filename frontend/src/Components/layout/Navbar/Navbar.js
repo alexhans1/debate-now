@@ -3,7 +3,7 @@ import InfoModal from './InfoModal'
 import { Link } from 'react-router-dom';
 import '../../../stylesheets/Navbar.css';
 
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
 
 class myNavbar extends Component {
 
@@ -52,7 +52,6 @@ class myNavbar extends Component {
             </Nav>
           </Collapse>
         </Navbar>
-
         <InfoModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)} />
       </div>
     )
