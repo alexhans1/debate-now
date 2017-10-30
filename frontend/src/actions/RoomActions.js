@@ -17,11 +17,10 @@ export function createRoom(location, format, language, eventId) {
   });
 }
 
-export function deleteRoom(id, eventId) {
+export function deleteRoom(id) {
   dispatcher.dispatch({
     type: "DELETE_ROOM",
     id,
-    eventId,
   });
 }
 

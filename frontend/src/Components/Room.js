@@ -40,7 +40,7 @@ class Room extends Component {
 
   deleteRoom (id) {
     // check if there are users in this room
-    if (this.checkRoom()) this.props.deleteRoom(id, this.props.eventId);
+    if (this.checkRoom()) this.props.deleteRoom(id);
     else alert('You can´t delete a room if there are people in there.. it´s dangerous!');
   }
 
