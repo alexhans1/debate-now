@@ -179,7 +179,6 @@ class Event extends Component {
           <div className={"col-md-2"}>
             <h4>
               Users
-              <i onClick={UserActions.refreshUsers.bind(this)} className="fa fa-refresh pull-right" aria-hidden="true" />
             </h4>
 
             <hr/>

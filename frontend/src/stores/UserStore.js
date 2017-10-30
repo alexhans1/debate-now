@@ -71,37 +71,6 @@ class UserStore extends EventEmitter {
     }
   }
 
-  async refreshUsers() {
-    let newUsersArray = this.users.slice();
-    try {
-      await fetch('app/user')
-      .then(res => res.json())
-      .then(users => {
-        window.users = users;
-        console.log(users);
-        users.forEach((user) => {
-          if (users.find((existingUser) => {
-            return existingUser.id === user.id
-          })) {
-            newUsersArray.push({
-              id: user.id,
-              name: user.vorname,
-              role: (Math.random() > 0.5) ? 'speaker' : 'judge',
-              format: (Math.random() > 0.5) ? 'opd' : 'bps',
-              language: (Math.random() > 0.5) ? 'de' : 'en',
-            })
-          }
-        })
-      });
-    } catch (ex) {
-        console.error(ex);
-    }
-
-    console.log(newUsersArray);
-    this.users = newUsersArray;
-    this.emit('change');
-  }
-
   getAllUsers() {
     return this.users;
   }
@@ -118,10 +87,6 @@ class UserStore extends EventEmitter {
       }
       case "DELETE_USER": {
         this.deleteUser(action.id);
-        break;
-      }
-      case "REFRESH_USERS": {
-        this.refreshUsers();
         break;
       }
       default: {

@@ -24,9 +24,3 @@ export function deleteUser(id) {
     id,
   });
 }
-
-export function refreshUsers() {
-  dispatcher.dispatch({
-    type: "REFRESH_USERS",
-  });
-}
