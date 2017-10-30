@@ -184,7 +184,7 @@ class Event extends Component {
 
             <hr/>
             <List key={"userList"}
-                  users={unassignedUsers}
+                  users={unassignedUsers} eventId={this.props.match.params.id}
                   createUser={UserActions.createUser.bind(this)}
                   deleteUser={UserActions.deleteUser.bind(this)} />
           </div>

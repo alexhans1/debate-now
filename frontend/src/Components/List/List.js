@@ -79,8 +79,12 @@ class List extends Component {
   handleAddUserSubmit() {
     if (this.state.newUser.name !== '') {
       this.props.createUser(
-        this.state.newUser.name, this.state.newUser.role,
-        this.state.newUser.format, this.state.newUser.language);
+        this.state.newUser.name,
+        this.state.newUser.role,
+        this.state.newUser.format,
+        this.state.newUser.language,
+        this.props.eventId
+      );
       this.setState({
         newUser: this.newUserDefaults,
         showModal: false,

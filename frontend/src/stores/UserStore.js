@@ -21,21 +21,34 @@ class UserStore extends EventEmitter {
     }
   }
 
-  createUser(name, role, format, language) {
-    if (name !== '' && name !== null) {
-      const id = Date.now();
-      let newUsersArray = this.users.slice();
-      newUsersArray.push(
-        {
-          id,
-          name,
-          role,
-          format,
-          language,
-        }
-      );
-      this.users = newUsersArray;
-      this.emit('change');
+  async createUser(name, role, format, language, eventId) {
+    if (typeof format !== 'string' || typeof language !== 'string') {
+      console.error('Wrong type at createRoom in RoomStore.');
+      return
+    }
+
+    if (eventId) {
+      try {
+        await fetch('/user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            role,
+            format,
+            language,
+            eventId,
+          })
+        }).then((response) => {
+          if (response.ok) {
+            this.fetchUsers(eventId);
+          }
+        });
+      } catch (ex) {
+        console.error(ex);
+      }
     }
   }
 
@@ -88,7 +101,7 @@ class UserStore extends EventEmitter {
         break;
       }
       case "CREATE_USER": {
-        this.createUser(action.name, action.role, action.format, action.language);
+        this.createUser(action.name, action.role, action.format, action.language, action.eventId);
         break;
       }
       case "DELETE_USER": {
