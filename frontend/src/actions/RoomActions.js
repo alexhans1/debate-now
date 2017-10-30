@@ -7,12 +7,13 @@ export function getAllRooms(eventId) {
   });
 }
 
-export function createRoom(location, format, language) {
+export function createRoom(location, format, language, eventId) {
   dispatcher.dispatch({
     type: "CREATE_ROOM",
     location,
     format,
     language,
+    eventId,
   });
 }
 

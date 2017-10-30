@@ -52,7 +52,12 @@ class Event extends Component {
 
   handleAddRoomSubmit(e) {
     e.preventDefault();
-    RoomActions.createRoom(this.state.newRoom.roomName, this.state.newRoom.roomFormat, this.state.newRoom.roomLanguage);
+    RoomActions.createRoom(
+      this.state.newRoom.roomName,
+      this.state.newRoom.roomFormat,
+      this.state.newRoom.roomLanguage,
+      this.props.match.params.id
+    );
     this.setState({
       newRoom: {
         roomName: '',

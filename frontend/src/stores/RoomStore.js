@@ -5,14 +5,7 @@ import remove from 'lodash/remove';
 class RoomStore extends EventEmitter {
   constructor() {
     super();
-    this.rooms = [
-      // {
-      //   id: 1,
-      //   location: 123,
-      //   format: 'bps',
-      //   language: 'de',
-      // }
-    ]
+    this.rooms = [];
   }
 
   async fetchRooms (eventId) {
@@ -20,6 +13,7 @@ class RoomStore extends EventEmitter {
       await fetch('/room/byEvent/' + eventId)
       .then(res => res.json())
       .then(rooms => {
+        console.log(rooms);
         this.rooms = rooms;
         this.emit('change');
       });
@@ -28,25 +22,56 @@ class RoomStore extends EventEmitter {
     }
   }
 
-  createRoom(location, format, language) {
+  async createRoom(location, format, language, eventId) {
     if (typeof format !== 'string' || typeof language !== 'string') {
       console.error('Wrong type at createRoom in RoomStore.');
       return
     }
 
-    const id = Date.now();
-    let newRoomsArray = this.rooms.slice();
-    newRoomsArray.push(
-      {
-        location,
-        format,
-        language,
-        id,
+    if (eventId) {
+      try {
+        await fetch('/room', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            location,
+            format,
+            language,
+            eventId,
+          })
+        }).then((response) => {
+          if (response.ok) {
+            this.fetchRooms(eventId);
+          }
+        });
+      } catch (ex) {
+        console.error(ex);
       }
-    );
-    this.rooms = newRoomsArray;
-    this.emit('change');
+    }
   }
+
+  // createRoom(location, format, language, eventId) {
+  //   if (typeof format !== 'string' || typeof language !== 'string') {
+  //     console.error('Wrong type at createRoom in RoomStore.');
+  //     return
+  //   }
+  //
+  //   const id = Date.now();
+  //   let newRoomsArray = this.rooms.slice();
+  //   newRoomsArray.push(
+  //     {
+  //       location,
+  //       format,
+  //       language,
+  //       eventId,
+  //       id,
+  //     }
+  //   );
+  //   this.rooms = newRoomsArray;
+  //   this.emit('change');
+  // }
 
   updateRoom(room) {
     if (typeof room !== 'object') {
@@ -90,7 +115,7 @@ class RoomStore extends EventEmitter {
         break;
       }
       case "CREATE_ROOM": {
-        this.createRoom(action.location, action.format, action.language);
+        this.createRoom(action.location, action.format, action.language, action.eventId);
         break;
       }
       case "DELETE_ROOM": {
