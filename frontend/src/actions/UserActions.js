@@ -24,3 +24,10 @@ export function deleteUser(id) {
     id,
   });
 }
+
+export function updateUser(user) {
+  dispatcher.dispatch({
+    type: "UPDATE_USER",
+    user,
+  });
+}

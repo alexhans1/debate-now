@@ -106,50 +106,50 @@ class Room extends Component {
   }
 
   render() {
-    const { room } = this.props;
+    const { room, users } = this.props;
 
     let teams = null;
     if (room.format.toLowerCase() === 'bps') {
       teams = <div>
         <div className="row teams">
-          <Team id={room.location + '_og'} position={"OG"}
+          <Team id={room.id + '_og'} position={"og"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'og'; })} />
-          <Team id={room.location + '_oo'} position={"OO"}
+                users={users.filter((user) => { return user.position === 'og'; })} />
+          <Team id={room.id + '_oo'} position={"oo"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'oo'; })} />
+                users={users.filter((user) => { return user.position === 'oo'; })} />
         </div>
         <div className="row teams">
-          <Team id={room.location + '_cg'} position={"CG"}
+          <Team id={room.id + '_cg'} position={"cg"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'cg'; })} />
-          <Team id={room.location + '_co'} position={"CO"}
+                users={users.filter((user) => { return user.position === 'cg'; })} />
+          <Team id={room.id + '_co'} position={"co"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'co'; })} />
+                users={users.filter((user) => { return user.position === 'co'; })} />
         </div>
       </div>;
 
     } else if (room.format.toLowerCase() === 'opd') {
       teams = <div>
         <div className="row teams">
-          <Team id={room.location + '_reg'} position={"Reg"}
+          <Team id={room.id + '_reg'} position={"reg"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'reg'; })} />
-          <Team id={room.location + '_opp'} position={"Opp"}
+                users={users.filter((user) => { return user.position === 'reg'; })} />
+          <Team id={room.id + '_opp'} position={"opp"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'opp'; })} />
+                users={users.filter((user) => { return user.position === 'opp'; })} />
         </div>
         <div className="row teams mt-1">
-          <Team id={room.location + '_ffr'} position={"FFR"}
+          <Team id={room.id + '_ffr'} position={"ffr"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
-                users={this.props.users.filter((user) => { return user.position === 'ffr'; })} />
+                users={users.filter((user) => { return user.position === 'ffr'; })} />
         </div>
 
       </div>;
@@ -228,8 +228,8 @@ class Room extends Component {
           {teams}
           <Team ref={(team) => { this.addContainer(team) }}
                 deleteUser={this.props.deleteUser.bind(this)}
-                class={"ml-2"} id={room.location + '_judge'} position={"Judges"}
-                users={this.props.users.filter((user) => { return user.position === 'judge'; })} />
+                class={"ml-2"} id={room.id + '_judge'} position={"judge"}
+                users={users.filter((user) => { return user.position === 'judge'; })} />
         </div>
 
         <Button outline color="danger deleteRoom"

@@ -5,6 +5,7 @@ import Card from '../Card';
 import { DropTarget } from 'react-dnd';
 import '../../stylesheets/List.css'
 import remove from 'lodash/remove';
+import * as UserActions from '../../actions/UserActions';
 
 import {FormGroup, Label, Input} from 'reactstrap'
 
@@ -21,9 +22,6 @@ class List extends Component {
     super();
     this.state = {
       cards: props.users,
-      idList: props.users.map((user) => {
-        return user.id
-      }),
       newUser: this.newUserDefaults,
       showModal: false,
     };
@@ -31,17 +29,12 @@ class List extends Component {
     this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps){
-    nextProps.users.forEach((user) => {
-      if (!this.state.idList.includes(user.id)) {
-        this.state.cards.push(user);
-        this.state.idList.push(user.id);
-        this.setState({
-          cards: this.state.cards,
-          idList: this.state.idList,
-        })
-      }
-    });
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(this.props.users) !== JSON.stringify(nextProps.users)) {
+      this.setState({
+        cards: nextProps.users,
+      });
+    }
   }
 
   componentWillMount(){
@@ -99,6 +92,9 @@ class List extends Component {
   }
 
   pushCard(card) {
+    card.position = null;
+    card.roomId = null;
+    UserActions.updateUser(card);
     this.setState(update(this.state, {
       cards: {
         $push: [ card ]

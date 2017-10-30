@@ -4,6 +4,7 @@ import Card from './Card';
 import { DropTarget } from 'react-dnd';
 import '../stylesheets/Team.css'
 import remove from 'lodash/remove';
+import * as UserActions from '../actions/UserActions';
 
 class Team extends Component {
 
@@ -22,8 +23,10 @@ class Team extends Component {
     }
   }
 
-
   pushCard(card) {
+    card.position = this.props.position;
+    card.roomId = parseInt(this.props.id.substring(0, this.props.id.indexOf('_')), 10);
+    UserActions.updateUser(card);
     this.setState(update(this.state, {
       cards: {
         $push: [ card ]
@@ -65,7 +68,7 @@ class Team extends Component {
   }
 
   render() {
-    const { cards, users } = this.state;
+    const { cards } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = canDrop && isOver;
 
@@ -81,7 +84,6 @@ class Team extends Component {
               index={i}
               listId={this.props.id}
               card={card}
-              users={users}
               removeCard={this.removeCard.bind(this)}
               moveCard={this.moveCard.bind(this)}
               deleteCard={this.deleteCard.bind(this)}/>

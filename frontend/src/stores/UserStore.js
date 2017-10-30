@@ -52,6 +52,51 @@ class UserStore extends EventEmitter {
     }
   }
 
+  async updateUser(user) {
+    if (typeof user !== 'object') {
+      console.error('Wrong type at updateRoom in UserStore.');
+      return
+    }
+
+    try {
+      await fetch('/user/' + user.id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: user.name,
+          role: user.role,
+          format: user.format,
+          language: user.language,
+          position: user.position,
+          roomId: user.roomId,
+        })
+      }).then((response) => {
+        if (response.ok) {
+          let newUserArray = this.users.slice();
+          remove(newUserArray, {id: user.id});
+          newUserArray.push(
+            {
+              name: user.name,
+              role: user.role,
+              format: user.format,
+              language: user.language,
+              position: user.position,
+              roomId: user.roomId,
+              id: user.id,
+              eventId: user.eventId,
+            }
+          );
+          this.users = newUserArray;
+          this.emit('change');
+        }
+      });
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
   async deleteUser(id) {
     if (id) {
       try {
@@ -87,6 +132,10 @@ class UserStore extends EventEmitter {
       }
       case "DELETE_USER": {
         this.deleteUser(action.id);
+        break;
+      }
+      case "UPDATE_USER": {
+        this.updateUser(action.user);
         break;
       }
       default: {
