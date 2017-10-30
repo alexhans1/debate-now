@@ -8,6 +8,19 @@ class UserStore extends EventEmitter {
     this.users = [];
   }
 
+  async fetchUsers (eventId) {
+    try {
+      await fetch('/user/byEvent/' + eventId)
+      .then(res => res.json())
+      .then(users => {
+        this.users = users;
+        this.emit('change');
+      });
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
   createUser(name, role, format, language) {
     if (name !== '' && name !== null) {
       const id = Date.now();
@@ -70,6 +83,10 @@ class UserStore extends EventEmitter {
 
   handleAction(action) {
     switch (action.type){
+      case "GET_USERS": {
+        this.fetchUsers(action.eventId);
+        break;
+      }
       case "CREATE_USER": {
         this.createUser(action.name, action.role, action.format, action.language);
         break;

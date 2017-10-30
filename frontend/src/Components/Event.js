@@ -68,6 +68,7 @@ class Event extends Component {
     UserStore.on('change',this.getUsers);
 
     RoomActions.getAllRooms(this.props.match.params.id);
+    UserActions.getAllUsers(this.props.match.params.id);
   }
 
   componentWillUnmount() {
@@ -95,6 +96,10 @@ class Event extends Component {
                          style={{fontSize: 17}}>Add room</a>
     }
 
+    let unassignedUsers = this.state.users.filter((user) => {
+      return user.position === null;
+    });
+
     return (
       <div className="container mb-3">
 
@@ -110,7 +115,10 @@ class Event extends Component {
             <hr/>
             {
               this.state.rooms.map((room) => {
-                return <Room key={room.id} room={room}
+                let users = this.state.users.filter((user) => {
+                  return user.roomId === room.id;
+                });
+                return <Room key={room.id} room={room} users={users}
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
                              deleteUser={UserActions.deleteUser.bind(this)} />;
               })
@@ -170,7 +178,7 @@ class Event extends Component {
 
             <hr/>
             <List key={"userList"}
-                  users={this.state.users}
+                  users={unassignedUsers}
                   createUser={UserActions.createUser.bind(this)}
                   deleteUser={UserActions.deleteUser.bind(this)} />
           </div>

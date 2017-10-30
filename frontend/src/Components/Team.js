@@ -9,8 +9,19 @@ class Team extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { cards: [] };
+    this.state = {
+      cards: props.users || [],
+    };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(this.props.users) !== JSON.stringify(nextProps.users)) {
+      this.setState({
+        cards: nextProps.users,
+      });
+    }
+  }
+
 
   pushCard(card) {
     this.setState(update(this.state, {
@@ -54,7 +65,7 @@ class Team extends Component {
   }
 
   render() {
-    const { cards } = this.state;
+    const { cards, users } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = canDrop && isOver;
 
@@ -70,6 +81,7 @@ class Team extends Component {
               index={i}
               listId={this.props.id}
               card={card}
+              users={users}
               removeCard={this.removeCard.bind(this)}
               moveCard={this.moveCard.bind(this)}
               deleteCard={this.deleteCard.bind(this)}/>

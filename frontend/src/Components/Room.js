@@ -47,18 +47,22 @@ class Room extends Component {
         <div className="row teams">
           <Team id={room.location + '_og'} position={"OG"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'og'; })} />
           <Team id={room.location + '_oo'} position={"OO"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'oo'; })} />
         </div>
         <div className="row teams">
           <Team id={room.location + '_cg'} position={"CG"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'cg'; })} />
           <Team id={room.location + '_co'} position={"CO"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'co'; })} />
         </div>
       </div>;
 
@@ -67,15 +71,18 @@ class Room extends Component {
         <div className="row teams">
           <Team id={room.location + '_reg'} position={"Reg"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'reg'; })} />
           <Team id={room.location + '_opp'} position={"Opp"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'opp'; })} />
         </div>
         <div className="row teams mt-1">
           <Team id={room.location + '_ffr'} position={"FFR"}
                 deleteUser={this.props.deleteUser.bind(this)}
-                 ref={(team) => { this.addContainer(team) }} />
+                ref={(team) => { this.addContainer(team) }}
+                users={this.props.users.filter((user) => { return user.position === 'ffr'; })} />
         </div>
 
       </div>;
@@ -102,7 +109,8 @@ class Room extends Component {
           {teams}
           <Team ref={(team) => { this.addContainer(team) }}
                 deleteUser={this.props.deleteUser.bind(this)}
-                class={"ml-2"} id={room.location + '_judge'} position={"Judges"} />
+                class={"ml-2"} id={room.location + '_judge'} position={"Judges"}
+                users={this.props.users.filter((user) => { return user.position === 'judge'; })} />
         </div>
 
         <Button outline color="danger deleteRoom"

@@ -1,5 +1,12 @@
 import dispatcher from "../dispatcher";
 
+export function getAllUsers(eventId) {
+  dispatcher.dispatch({
+    type: "GET_USERS",
+    eventId: eventId,
+  });
+}
+
 export function createUser(name, role, format, language) {
   dispatcher.dispatch({
     type: "CREATE_USER",
