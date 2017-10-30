@@ -52,11 +52,23 @@ class UserStore extends EventEmitter {
     }
   }
 
-  deleteUser(id) {
-    let newUsersArray = this.users.slice();
-    remove(newUsersArray, {id});
-    this.users = newUsersArray;
-    this.emit('change');
+  async deleteUser(id) {
+    if (id) {
+      try {
+        await fetch('/user/' + id, {
+          method: 'DELETE',
+        }).then((response) => {
+          if (response.ok) {
+            let newUsersArray = this.users.slice();
+            remove(newUsersArray, {id});
+            this.users = newUsersArray;
+            this.emit('change');
+          }
+        });
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   }
 
   async refreshUsers() {
