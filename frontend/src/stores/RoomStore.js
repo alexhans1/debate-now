@@ -8,6 +8,19 @@ class RoomStore extends EventEmitter {
     this.rooms = []
   }
 
+  async fetchRooms (eventId) {
+    try {
+      await fetch('/room/byEvent/' + eventId)
+      .then(res => res.json())
+      .then(rooms => {
+        this.rooms = rooms;
+        this.emit('change');
+      });
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
   createRoom(location, format, language) {
     if (typeof format !== 'string') {
         return
@@ -40,6 +53,10 @@ class RoomStore extends EventEmitter {
 
   handleAction(action) {
     switch (action.type){
+      case "GET_ROOMS": {
+        this.fetchRooms(action.eventId);
+        break;
+      }
       case "CREATE_ROOM": {
         this.createRoom(action.location, action.format, action.language);
         break;

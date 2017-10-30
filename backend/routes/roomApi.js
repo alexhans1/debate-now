@@ -4,6 +4,8 @@ const router = express.Router();
 module.exports = function (sequelize) {
 
   Room = require('../models/roomModel')(sequelize);
+  Event = require('../models/eventModel')(sequelize);
+  Room.belongsTo(Event); // adds eventId to room model
 
   router.get('/', async function(req, res) {
     try {
@@ -20,11 +22,26 @@ module.exports = function (sequelize) {
     try {
       room = await Room.findOne({
         where: {
-          id: req.params.id
+          id: req.params.id,
         }
       });
       console.info('Fetching specific room.');
       res.send(room.toJSON());
+    } catch (ex) {
+      console.error(ex);
+      next('Error while fetching specific room.');
+    }
+  });
+
+  router.get('/byEvent/:eventId', async function(req, res) {
+    try {
+      rooms = await Room.findAll({
+        where: {
+          eventId: req.params.eventId,
+        }
+      });
+      console.info('Fetching specific room.');
+      res.send(rooms);
     } catch (ex) {
       console.error(ex);
       next('Error while fetching specific room.');
@@ -37,6 +54,7 @@ module.exports = function (sequelize) {
         location: req.body.location,
         format: req.body.format,
         language: req.body.language,
+        eventId: req.body.eventId,
       });
       console.info('Creating new room.');
       res.send(room.toJSON());
@@ -52,6 +70,7 @@ module.exports = function (sequelize) {
         location: req.body.location,
         format: req.body.format,
         language: req.body.language,
+        eventId: req.body.eventId,
       }, {
         where: {
           id: req.params.id

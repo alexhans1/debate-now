@@ -66,6 +66,8 @@ class Event extends Component {
   componentWillMount() {
     RoomStore.on('change',this.getRooms);
     UserStore.on('change',this.getUsers);
+
+    RoomActions.getAllRooms(this.props.match.params.id);
   }
 
   componentWillUnmount() {

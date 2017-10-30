@@ -7,7 +7,7 @@ import * as EventActions from '../../actions/EventActions';
 
 import {Button} from 'reactstrap';
 
-class InfoModal extends Component {
+class EventTile extends Component {
 
   constructor() {
     super();
@@ -32,7 +32,7 @@ class InfoModal extends Component {
     });
   }
 
-  handleDeleteClick(id) {
+  static handleDeleteClick(id) {
     EventActions.deleteEvent(id);
   };
 
@@ -75,12 +75,12 @@ class InfoModal extends Component {
         </Link>
 
         <DeleteEventModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
-                       event={event} handleSubmit={this.handleDeleteClick.bind(this)} />
+                       event={event} handleSubmit={EventTile.handleDeleteClick.bind(this)} />
       </div>
     );
   }
 }
 
-export default InfoModal;
+export default EventTile;
 
 
