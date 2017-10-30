@@ -123,7 +123,7 @@ class Event extends Component {
                 let users = this.state.users.filter((user) => {
                   return user.roomId === room.id;
                 });
-                return <Room key={room.id} room={room} users={users}
+                return <Room key={room.id} room={room} users={users} eventId={this.props.match.params.id}
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
                              updateRoom={RoomActions.updateRoom.bind(this)}
                              deleteUser={UserActions.deleteUser.bind(this)} />;

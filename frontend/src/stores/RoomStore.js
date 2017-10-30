@@ -13,7 +13,6 @@ class RoomStore extends EventEmitter {
       await fetch('/room/byEvent/' + eventId)
       .then(res => res.json())
       .then(rooms => {
-        console.log(rooms);
         this.rooms = rooms;
         this.emit('change');
       });
@@ -52,27 +51,6 @@ class RoomStore extends EventEmitter {
     }
   }
 
-  // createRoom(location, format, language, eventId) {
-  //   if (typeof format !== 'string' || typeof language !== 'string') {
-  //     console.error('Wrong type at createRoom in RoomStore.');
-  //     return
-  //   }
-  //
-  //   const id = Date.now();
-  //   let newRoomsArray = this.rooms.slice();
-  //   newRoomsArray.push(
-  //     {
-  //       location,
-  //       format,
-  //       language,
-  //       eventId,
-  //       id,
-  //     }
-  //   );
-  //   this.rooms = newRoomsArray;
-  //   this.emit('change');
-  // }
-
   updateRoom(room) {
     if (typeof room !== 'object') {
       console.error('Wrong type at updateRoom in RoomStore.');
@@ -97,12 +75,28 @@ class RoomStore extends EventEmitter {
     }
   }
 
-  deleteRoom(id) {
-    let newRoomsArray = this.rooms.slice();
-    remove(newRoomsArray, {id});
-    this.rooms = newRoomsArray;
-    this.emit('change');
+  async deleteRoom(id, eventId) {
+    if (id) {
+      try {
+        await fetch('/room/' + id, {
+          method: 'DELETE',
+        }).then((response) => {
+          if (response.ok) {
+            this.fetchRooms(eventId);
+          }
+        });
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   }
+
+  // deleteRoom(id) {
+  //   let newRoomsArray = this.rooms.slice();
+  //   remove(newRoomsArray, {id});
+  //   this.rooms = newRoomsArray;
+  //   this.emit('change');
+  // }
 
   getAllRooms() {
     return this.rooms;
@@ -119,7 +113,7 @@ class RoomStore extends EventEmitter {
         break;
       }
       case "DELETE_ROOM": {
-        this.deleteRoom(action.id);
+        this.deleteRoom(action.id, action.eventId);
         break;
       }
       case "UPDATE_ROOM": {
