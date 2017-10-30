@@ -51,7 +51,7 @@ class NewUserModal extends Component {
                          name="user role" id="userRole">
                     <option>speaker</option>
                     <option>judge</option>
-                    <option></option>
+                    <option />
                   </Input>
                 </Col>
               </FormGroup>
@@ -59,11 +59,11 @@ class NewUserModal extends Component {
                 <Label for="userFormat" sm={3}>Format</Label>
                 <Col sm={9}>
                   <Input type="select" onChange={this.props.handleChange('format').bind(this)}
-                         value={this.props.newUser.format}
+                         value={this.props.newUser.format} className={"uppercase"}
                          name="user format" id="userFormat">
-                    <option>BPS</option>
-                    <option>OPD</option>
-                    <option></option>
+                    <option className={"uppercase"}>bps</option>
+                    <option className={"uppercase"}>opd</option>
+                    <option />
                   </Input>
                 </Col>
               </FormGroup>
@@ -75,7 +75,7 @@ class NewUserModal extends Component {
                          name="user language" id="userLanguage">
                     <option>de</option>
                     <option>en</option>
-                    <option></option>
+                    <option />
                   </Input>
                 </Col>
               </FormGroup>

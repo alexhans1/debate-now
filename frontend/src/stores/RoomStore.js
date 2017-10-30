@@ -5,7 +5,14 @@ import remove from 'lodash/remove';
 class RoomStore extends EventEmitter {
   constructor() {
     super();
-    this.rooms = []
+    this.rooms = [
+      // {
+      //   id: 1,
+      //   location: 123,
+      //   format: 'bps',
+      //   language: 'de',
+      // }
+    ]
   }
 
   async fetchRooms (eventId) {
@@ -22,8 +29,9 @@ class RoomStore extends EventEmitter {
   }
 
   createRoom(location, format, language) {
-    if (typeof format !== 'string') {
-        return
+    if (typeof format !== 'string' || typeof language !== 'string') {
+      console.error('Wrong type at createRoom in RoomStore.');
+      return
     }
 
     const id = Date.now();
@@ -38,6 +46,30 @@ class RoomStore extends EventEmitter {
     );
     this.rooms = newRoomsArray;
     this.emit('change');
+  }
+
+  updateRoom(room) {
+    if (typeof room !== 'object') {
+      console.error('Wrong type at updateRoom in RoomStore.');
+      return
+    }
+
+    try {
+      let newRoomsArray = this.rooms.slice();
+      remove(newRoomsArray, {id: room.id});
+      newRoomsArray.push(
+        {
+          location: room.location,
+          format: room.format,
+          language: room.language,
+          id: room.id,
+        }
+      );
+      this.rooms = newRoomsArray;
+      this.emit('change');
+    } catch (ex) {
+      console.error(ex);
+    }
   }
 
   deleteRoom(id) {
@@ -63,6 +95,10 @@ class RoomStore extends EventEmitter {
       }
       case "DELETE_ROOM": {
         this.deleteRoom(action.id);
+        break;
+      }
+      case "UPDATE_ROOM": {
+        this.updateRoom(action.room);
         break;
       }
       default: {

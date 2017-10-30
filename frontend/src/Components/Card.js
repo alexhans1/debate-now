@@ -6,6 +6,13 @@ import '../stylesheets/Card.css';
 
 class Card extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      showTooltip: false,
+    }
+  }
+
   deleteCard() {
     this.props.deleteCard(this.props.card.id);
   }
@@ -21,11 +28,24 @@ class Card extends Component {
       if (card.format.toLowerCase() === 'bps') backgroundColor = 'bg-olive';
       else if (card.format.toLowerCase() === 'opd') backgroundColor = 'bg-maroon';
     }
-
     backgroundColor += ' cardItem';
 
+    let cardToolttip = null;
+    if (this.state.showTooltip) {
+      cardToolttip = (
+        <span className={"cardTooltip"}>
+          <li className={"capitalize"}>{card.role}</li>
+          <li className={"uppercase"}>{card.format}</li>
+          <li>{card.language}</li>
+        </span>
+      )
+    }
+
     return connectDragSource(connectDropTarget(
-      <div className={backgroundColor} style={{ opacity }} >
+      <div className={backgroundColor} style={{ opacity }}
+           onMouseOver={() => {this.setState({ showTooltip: true, }); }}
+           onMouseOut={() => {this.setState({ showTooltip: false, }); }}
+           onMouseDown={() => {this.setState({ showTooltip: false, }); }} >
         <span className={"break-word"}>
           {card.name}
         </span>
@@ -33,6 +53,8 @@ class Card extends Component {
         <a className="deleteCard" onClick={this.deleteCard.bind(this)}>
           <i className="fa fa-times" aria-hidden="true"/>
         </a>
+
+        {cardToolttip}
       </div>
     ));
   }

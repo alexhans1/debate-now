@@ -4,10 +4,10 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import '../stylesheets/Main.css';
 import Room from "./Room";
 import List from "./List/List";
-import RoomStore from '../stores/RoomStore'
-import UserStore from '../stores/UserStore'
-import * as RoomActions from '../actions/RoomActions'
-import * as UserActions from '../actions/UserActions'
+import RoomStore from '../stores/RoomStore';
+import UserStore from '../stores/UserStore';
+import * as RoomActions from '../actions/RoomActions';
+import * as UserActions from '../actions/UserActions';
 
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 
@@ -24,7 +24,7 @@ class Event extends Component {
 
       newRoom: {
         roomName: '',
-        roomFormat: 'BPS',
+        roomFormat: 'bps',
         roomLanguage: 'de',
 
       },
@@ -56,7 +56,7 @@ class Event extends Component {
     this.setState({
       newRoom: {
         roomName: '',
-        roomFormat: 'BPS',
+        roomFormat: 'bps',
         roomLanguage: 'de',
       },
       showModal: false,
@@ -101,7 +101,7 @@ class Event extends Component {
     });
 
     return (
-      <div className="container mb-3">
+      <div className="container mb-5">
 
         <div id="header" className="row">
           <div className={"mt-2 ml-3"}>
@@ -120,8 +120,9 @@ class Event extends Component {
                 });
                 return <Room key={room.id} room={room} users={users}
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
+                             updateRoom={RoomActions.updateRoom.bind(this)}
                              deleteUser={UserActions.deleteUser.bind(this)} />;
-              })
+              }).sort((a, b) => { return b.id - a.id })
             }
             <div id="addNewRoom" className={"mt-3"}>
               <Button color="danger" onClick={this.toggleModal} className={"btn-circle btn-xl"}>
@@ -145,10 +146,10 @@ class Event extends Component {
                       <Label for="roomFormat" sm={4}>Format</Label>
                       <Col sm={8}>
                         <Input type="select" onChange={this.handleChangeFor('roomFormat')}
-                               value={this.state.newRoom.roomFormat}
+                               value={this.state.newRoom.roomFormat} className={"uppercase"}
                                name="room format" id="roomFormat">
-                          <option>BPS</option>
-                          <option>OPD</option>
+                          <option className={"uppercase"}>bps</option>
+                          <option className={"uppercase"}>opd</option>
                         </Input>
                       </Col>
                     </FormGroup>
