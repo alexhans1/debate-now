@@ -1,6 +1,15 @@
-@media screen and (min-width: 650px) {
-  #navbar-row {
-    padding: 0 30px;
+/*@media screen and (min-width: 650px) {*/
+  /*#navbar-row {*/
+    /*padding: 0 30px;*/
+  /*}*/
+/*}*/
+
+@media screen and (min-width: 768px) {
+  .navbar-nav {
+    width: 100%;
+  }
+  .infoModalButton {
+    margin-left: auto !important;
   }
 }
 
