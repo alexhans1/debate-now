@@ -5,6 +5,8 @@ module.exports = function (sequelize) {
 
   User = require('../models/userModel')(sequelize);
   Room = require('../models/roomModel')(sequelize);
+  Event = require('../models/eventModel')(sequelize);
+  User.belongsTo(Event); // adds eventId to user model
   User.belongsTo(Room); // adds roomId to user model
 
   router.get('/', async function(req, res) {
@@ -33,6 +35,21 @@ module.exports = function (sequelize) {
     }
   });
 
+  router.get('/byEvent/:eventId', async function(req, res) {
+    try {
+      users = await User.findAll({
+        where: {
+          eventId: req.params.eventId
+        }
+      });
+      console.info('Fetching specific user.');
+      res.send(users);
+    } catch (ex) {
+      console.error(ex);
+      next('Error while fetching specific user.');
+    }
+  });
+
   router.post('/', async function(req, res) {
     try {
       user = await User.create({
@@ -40,6 +57,7 @@ module.exports = function (sequelize) {
         role: req.body.role,
         format: req.body.format,
         language: req.body.language,
+        eventId: req.body.eventId,
         roomId: req.body.roomId,
         position: req.body.position,
       });
@@ -58,6 +76,7 @@ module.exports = function (sequelize) {
         role: req.body.role,
         format: req.body.format,
         language: req.body.language,
+        eventId: req.body.eventId,
         roomId: req.body.roomId,
         position: req.body.position,
       }, {
