@@ -9,7 +9,7 @@ class EventStore extends EventEmitter {
 
   async fetchEvents () {
     try {
-      await fetch('event')
+      await fetch('/event')
       .then(res => res.json())
       .then(events => {
         this.events = events;
@@ -22,6 +22,13 @@ class EventStore extends EventEmitter {
 
   getAllEvents () {
     return this.events;
+  }
+
+  getEvent (id) {
+    let event = this.events.find((event) => {
+      return event.id === parseInt(id, 10);
+    });
+    return event || null;
   }
 
   async createEvent(institution, type, date, password) {

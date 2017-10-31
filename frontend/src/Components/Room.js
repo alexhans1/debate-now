@@ -115,20 +115,24 @@ class Room extends Component {
           <Team id={room.id + '_og'} position={"og"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'og'; })} />
           <Team id={room.id + '_oo'} position={"oo"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'oo'; })} />
         </div>
         <div className="row teams">
           <Team id={room.id + '_cg'} position={"cg"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'cg'; })} />
           <Team id={room.id + '_co'} position={"co"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'co'; })} />
         </div>
       </div>;
@@ -139,16 +143,19 @@ class Room extends Component {
           <Team id={room.id + '_reg'} position={"reg"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'reg'; })} />
           <Team id={room.id + '_opp'} position={"opp"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'opp'; })} />
         </div>
         <div className="row teams mt-1">
           <Team id={room.id + '_ffr'} position={"ffr"}
                 deleteUser={this.props.deleteUser.bind(this)}
                 ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 users={users.filter((user) => { return user.position === 'ffr'; })} />
         </div>
 
@@ -227,6 +234,7 @@ class Room extends Component {
         <div className={"teams"}>
           {teams}
           <Team ref={(team) => { this.addContainer(team) }}
+                event={this.props.event}
                 deleteUser={this.props.deleteUser.bind(this)}
                 class={"ml-2"} id={room.id + '_judge'} position={"judge"}
                 users={users.filter((user) => { return user.position === 'judge'; })} />

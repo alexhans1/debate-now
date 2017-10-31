@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import update from 'react/lib/update';
 import Card from './Card';
+import EventPasswordModal from './EventPasswordModal';
 import { DropTarget } from 'react-dnd';
 import '../stylesheets/Team.css'
 import remove from 'lodash/remove';
@@ -12,7 +13,9 @@ class Team extends Component {
     super(props);
     this.state = {
       cards: props.users || [],
+      showPasswordModal: false,
     };
+    this.togglePasswordModal = this.togglePasswordModal.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,39 +26,53 @@ class Team extends Component {
     }
   }
 
+  togglePasswordModal() {
+    this.setState({
+      showPasswordModal: !this.state.showPasswordModal,
+    });
+  }
+
   pushCard(card) {
-    card.position = this.props.position;
-    card.roomId = parseInt(this.props.id.substring(0, this.props.id.indexOf('_')), 10);
-    UserActions.updateUser(card);
-    this.setState(update(this.state, {
-      cards: {
-        $push: [ card ]
-      }
-    }));
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      card.position = this.props.position;
+      card.roomId = parseInt(this.props.id.substring(0, this.props.id.indexOf('_')), 10);
+      UserActions.updateUser(card);
+      this.setState(update(this.state, {
+        cards: {
+          $push: [ card ]
+        }
+      }));
+    } else {
+      this.togglePasswordModal();
+    }
   }
 
   removeCard(index) {
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [index, 1]
-        ]
-      }
-    }));
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      this.setState(update(this.state, {
+        cards: {
+          $splice: [
+            [index, 1]
+          ]
+        }
+      }));
+    }
   }
 
   moveCard(dragIndex, hoverIndex) {
-    const { cards } = this.state;
-    const dragCard = cards[dragIndex];
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      const { cards } = this.state;
+      const dragCard = cards[dragIndex];
 
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragCard]
-        ]
-      }
-    }));
+      this.setState(update(this.state, {
+        cards: {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard]
+          ]
+        }
+      }));
+    }
   }
 
   deleteCard(id) {
@@ -89,6 +106,10 @@ class Team extends Component {
               deleteCard={this.deleteCard.bind(this)}/>
           );
         })}
+
+        <EventPasswordModal showModal={this.state.showPasswordModal}
+                            toggle={this.togglePasswordModal}
+                            event={this.props.event} />
       </div>
     );
   }

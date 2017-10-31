@@ -6,21 +6,25 @@ import Room from "./Room";
 import List from "./List/List";
 import RoomStore from '../stores/RoomStore';
 import UserStore from '../stores/UserStore';
+import EventStore from '../stores/EventStore';
 import * as RoomActions from '../actions/RoomActions';
 import * as UserActions from '../actions/UserActions';
+import * as EventActions from '../actions/EventActions';
 
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 
 class Event extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.getRooms = this.getRooms.bind(this);
     this.getUsers = this.getUsers.bind(this);
+    this.getEvent = this.getEvent.bind(this);
     this.state = {
       // initialize with sample data
       users: UserStore.getAllUsers(),
       rooms: RoomStore.getAllRooms(),
+      event: EventStore.getEvent(props.match.params.id),
 
       newRoom: {
         roomName: '',
@@ -31,7 +35,6 @@ class Event extends Component {
     };
 
     this.toggleModal = this.toggleModal.bind(this);
-
   }
 
   toggleModal() {
@@ -70,14 +73,23 @@ class Event extends Component {
   componentWillMount() {
     RoomStore.on('change',this.getRooms);
     UserStore.on('change',this.getUsers);
+    EventStore.on('change',this.getEvent);
 
     RoomActions.getAllRooms(this.props.match.params.id);
     UserActions.getAllUsers(this.props.match.params.id);
+    EventActions.getAllEvents();
   }
 
   componentWillUnmount() {
     RoomStore.removeListener('change',this.getRooms);
     UserStore.removeListener('change',this.getUsers);
+    EventStore.removeListener('change',this.getEvent);
+  }
+
+  getEvent() {
+    this.setState({
+      event: EventStore.getEvent(this.props.match.params.id),
+    });
   }
 
   getRooms() {
@@ -105,14 +117,14 @@ class Event extends Component {
     });
 
     let header = <h3>Set your debates</h3>;
-    if (this.props.location.state) {
+    if (this.state.event) {
       header = <h3>
         <b>
-          {this.props.location.state.event.institution || "Set your debates"}
-        </b> - {this.props.location.state.event.type}&nbsp;&nbsp;
-        {this.props.location.state.event.date.substring(8,10)}.
-        {this.props.location.state.event.date.substring(5,7)}.
-        {this.props.location.state.event.date.substring(0,4)}
+          {this.state.event.institution || "Set your debates"}
+        </b> - {this.state.event.type}&nbsp;&nbsp;
+        {this.state.event.date.substring(8,10)}.
+        {this.state.event.date.substring(5,7)}.
+        {this.state.event.date.substring(0,4)}
       </h3>
     }
 
@@ -134,7 +146,7 @@ class Event extends Component {
                 let users = this.state.users.filter((user) => {
                   return user.roomId === room.id;
                 });
-                return <Room key={room.id} room={room} users={users}
+                return <Room key={room.id} room={room} users={users} event={this.state.event}
                              deleteRoom={RoomActions.deleteRoom.bind(this)}
                              updateRoom={RoomActions.updateRoom.bind(this)}
                              deleteUser={UserActions.deleteUser.bind(this)} />;
@@ -194,7 +206,7 @@ class Event extends Component {
 
             <hr/>
             <List key={"userList"}
-                  users={unassignedUsers} eventId={this.props.match.params.id}
+                  users={unassignedUsers} event={this.state.event}
                   createUser={UserActions.createUser.bind(this)}
                   deleteUser={UserActions.deleteUser.bind(this)} />
           </div>

@@ -20,6 +20,8 @@ class Main extends Component {
       newEvent: this.newEventDefaults,
       showModal: false,
     };
+
+    localStorage.setItem('canEdit', JSON.stringify([]));
   }
 
   newEventDefaults = {

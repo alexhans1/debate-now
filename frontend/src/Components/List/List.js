@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import update from 'react/lib/update';
 import NewUserModal from './NewUserModal';
 import Card from '../Card';
+import EventPasswordModal from '../EventPasswordModal';
 import { DropTarget } from 'react-dnd';
 import '../../stylesheets/List.css'
 import remove from 'lodash/remove';
@@ -21,11 +22,13 @@ class List extends Component {
   constructor(props) {
     super();
     this.state = {
-      cards: props.users,
+      cards: props.users || [],
+      showPasswordModal: false,
       newUser: this.newUserDefaults,
       showModal: false,
     };
 
+    this.togglePasswordModal = this.togglePasswordModal.bind(this);
     this.handleAddUserSubmit = this.handleAddUserSubmit.bind(this);
   }
 
@@ -43,6 +46,12 @@ class List extends Component {
 
   componentWillUnmount(){
     document.removeEventListener("keypress", this.handleKeyPress.bind(this));
+  }
+
+  togglePasswordModal() {
+    this.setState({
+      showPasswordModal: !this.state.showPasswordModal,
+    });
   }
 
   handleKeyPress(e) {
@@ -76,7 +85,7 @@ class List extends Component {
         this.state.newUser.role,
         this.state.newUser.format,
         this.state.newUser.language,
-        this.props.eventId
+        this.props.event.id
       );
       this.setState({
         newUser: this.newUserDefaults,
@@ -92,38 +101,46 @@ class List extends Component {
   }
 
   pushCard(card) {
-    card.position = null;
-    card.roomId = null;
-    UserActions.updateUser(card);
-    this.setState(update(this.state, {
-      cards: {
-        $push: [ card ]
-      }
-    }));
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      card.position = null;
+      card.roomId = null;
+      UserActions.updateUser(card);
+      this.setState(update(this.state, {
+        cards: {
+          $push: [ card ]
+        }
+      }));
+    } else {
+      this.togglePasswordModal();
+    }
   }
 
   removeCard(index) {
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [index, 1]
-        ]
-      }
-    }));
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      this.setState(update(this.state, {
+        cards: {
+          $splice: [
+            [index, 1]
+          ]
+        }
+      }));
+    }
   }
 
   moveCard(dragIndex, hoverIndex) {
-    const { cards } = this.state;
-    const dragCard = cards[dragIndex];
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      const { cards } = this.state;
+      const dragCard = cards[dragIndex];
 
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragCard]
-        ]
-      }
-    }));
+      this.setState(update(this.state, {
+        cards: {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard]
+          ]
+        }
+      }));
+    }
   }
 
   deleteCard(id) {
@@ -167,6 +184,10 @@ class List extends Component {
         <NewUserModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
                       handleChange={this.handleChangeFor} newUser={this.state.newUser}
                       handleSubmit={this.handleAddUserSubmit} />
+
+        <EventPasswordModal showModal={this.state.showPasswordModal}
+                            toggle={this.togglePasswordModal}
+                            event={this.props.event} />
       </div>
     );
   }
