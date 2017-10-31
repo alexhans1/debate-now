@@ -1,0 +1,48 @@
+.cardItem {
+  border: 1px dashed gray;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0;
+  margin: .5rem;
+  cursor: move;
+  text-transform: capitalize;
+  position: relative;
+}
+
+.deleteCard {
+  color: firebrick !important;
+  position: absolute;
+  top: -3px;
+  right: 2px;
+}
+
+.deleteCard:hover {
+  color: firebrick;
+  cursor: pointer;
+}
+
+.cardTooltip {
+  font-size: small;
+  position: absolute;
+  bottom: -75px;
+  left: 8px;
+  padding: 6px 20px;
+  z-index: 100;
+  background-color: rgba(10, 10, 10, 0.84);
+  border-radius: 3px;
+  list-style-type: none;
+  text-align: center;
+  box-shadow: 2px 3px 3px #353535;
+}
+.cardTooltip:before{
+  content:'';
+  display:block;
+  width:0;
+  height:0;
+  position:absolute;
+
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgba(10, 10, 10, 0.84);
+  left: 15px;
+  top: -5px;
+}

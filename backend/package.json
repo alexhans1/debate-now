@@ -1,0 +1,33 @@
+{
+  "name": "debate-now-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexhans1/debate-now-api.git"
+  },
+  "keywords": [
+    "debate",
+    "debate",
+    "now"
+  ],
+  "author": "Alexander Hans",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexhans1/debate-now-api/issues"
+  },
+  "homepage": "https://github.com/alexhans1/debate-now-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "mysql2": "^1.4.2",
+    "sequelize": "^4.17.2"
+  }
+}
