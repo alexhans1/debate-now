@@ -6,11 +6,14 @@ class RoomStore extends EventEmitter {
   constructor() {
     super();
     this.rooms = [];
+
+    this.baseURL = (process.env.NODE_ENV === 'production') ? 'http://debate-now.azurewebsites.net/'
+      : 'http://localhost:3030/';
   }
 
   async fetchRooms (eventId) {
     try {
-      await fetch('/room/byEvent/' + eventId)
+      await fetch(this.baseURL + 'room/byEvent/' + eventId)
       .then(res => res.json())
       .then(rooms => {
         this.rooms = rooms;
@@ -29,7 +32,7 @@ class RoomStore extends EventEmitter {
 
     if (eventId) {
       try {
-        await fetch('/room', {
+        await fetch(this.baseURL + 'room', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -58,7 +61,7 @@ class RoomStore extends EventEmitter {
     }
 
     try {
-      await fetch('/room/' + room.id, {
+      await fetch(this.baseURL + 'room/' + room.id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +96,7 @@ class RoomStore extends EventEmitter {
   async deleteRoom(id) {
     if (id) {
       try {
-        await fetch('/room/' + id, {
+        await fetch(this.baseURL + 'room/' + id, {
           method: 'DELETE',
         }).then((response) => {
           if (response.ok) {

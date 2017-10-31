@@ -24,6 +24,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "just-deploy": "gh-pages -d build"
-  },
-  "proxy": "http://debate-now.azurewebsites.net"
+  }
 }

@@ -134,3 +134,4 @@ typings/
 # dotenv environment variables file
 .env
 
+/frontend/build/static/*

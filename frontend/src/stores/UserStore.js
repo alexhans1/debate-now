@@ -6,11 +6,14 @@ class UserStore extends EventEmitter {
   constructor() {
     super();
     this.users = [];
+
+    this.baseURL = (process.env.NODE_ENV === 'production') ? 'http://debate-now.azurewebsites.net/'
+      : 'http://localhost:3030/';
   }
 
   async fetchUsers (eventId) {
     try {
-      await fetch('/user/byEvent/' + eventId)
+      await fetch(this.baseURL + 'user/byEvent/' + eventId)
       .then(res => res.json())
       .then(users => {
         this.users = users;
@@ -29,7 +32,7 @@ class UserStore extends EventEmitter {
 
     if (eventId) {
       try {
-        await fetch('/user', {
+        await fetch(this.baseURL + 'user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -59,7 +62,7 @@ class UserStore extends EventEmitter {
     }
 
     try {
-      await fetch('/user/' + user.id, {
+      await fetch(this.baseURL + 'user/' + user.id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +103,7 @@ class UserStore extends EventEmitter {
   async deleteUser(id) {
     if (id) {
       try {
-        await fetch('/user/' + id, {
+        await fetch(this.baseURL + 'user/' + id, {
           method: 'DELETE',
         }).then((response) => {
           if (response.ok) {

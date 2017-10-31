@@ -5,11 +5,14 @@ class EventStore extends EventEmitter {
   constructor() {
     super();
     this.events = [];
+
+    this.baseURL = (process.env.NODE_ENV === 'production') ? 'http://debate-now.azurewebsites.net/'
+      : 'http://localhost:3030/';
   }
 
   async fetchEvents () {
     try {
-      await fetch('/event')
+      await fetch(this.baseURL + 'event')
       .then(res => res.json())
       .then(events => {
         this.events = events;
@@ -34,7 +37,7 @@ class EventStore extends EventEmitter {
   async createEvent(institution, type, date, password) {
     if (institution && type && password) {
       try {
-        await fetch('event', {
+        await fetch(this.baseURL + 'event', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -59,7 +62,7 @@ class EventStore extends EventEmitter {
   async deleteEvent(id) {
     if (id) {
       try {
-        await fetch('event/' + id, {
+        await fetch(this.baseURL + 'event/' + id, {
           method: 'DELETE',
         }).then((response) => {
           if (response.ok) {
