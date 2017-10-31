@@ -140,16 +140,22 @@ class List extends Component {
           ]
         }
       }));
+    } else {
+      this.togglePasswordModal();
     }
   }
 
   deleteCard(id) {
-    let newUsersArray = this.state.cards.slice();
-    remove(newUsersArray, {id});
-    this.setState({
-      cards: newUsersArray,
-    });
-    this.props.deleteUser(id);
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      let newUsersArray = this.state.cards.slice();
+      remove(newUsersArray, {id});
+      this.setState({
+        cards: newUsersArray,
+      });
+      this.props.deleteUser(id);
+    } else {
+      this.togglePasswordModal();
+    }
   }
 
   render() {

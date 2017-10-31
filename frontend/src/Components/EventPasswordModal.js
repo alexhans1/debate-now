@@ -18,10 +18,14 @@ class EventPasswordModal extends Component {
 
   handlePasswordChange(e) {
     if (e.target.value === this.props.event.password) {
-      let canEditIds = JSON.parse(localStorage.getItem('canEdit'));
-      console.log(canEditIds);
-      canEditIds.push(this.props.event.id);
-      localStorage.setItem('canEdit', JSON.stringify(canEditIds));
+      if (localStorage.getItem('canEdit')) {
+        let canEditIds = JSON.parse(localStorage.getItem('canEdit'));
+        canEditIds.push(this.props.event.id);
+        localStorage.setItem('canEdit', JSON.stringify(canEditIds));
+      } else {
+        localStorage.setItem('canEdit', JSON.stringify([this.props.event.id]));
+      }
+
       this.toggle();
     }
   };

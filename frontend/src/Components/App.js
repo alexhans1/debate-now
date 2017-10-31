@@ -6,6 +6,13 @@ import { Switch, Route,  } from 'react-router-dom';
 
 class App extends Component {
 
+  constructor() {
+    super();
+    if (!localStorage.getItem('canEdit')) {
+      localStorage.setItem('canEdit', JSON.stringify([]));
+    }
+  }
+
   render() {
     return (
       <div>
