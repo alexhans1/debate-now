@@ -25,5 +25,5 @@
     "deploy": "gh-pages -d build",
     "just-deploy": "gh-pages -d build"
   },
-  "proxy": "http://localhost:3030"
+  "proxy": "http://debate-now.azurewebsites.net"
 }
