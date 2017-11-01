@@ -7,7 +7,7 @@ class UserStore extends EventEmitter {
     super();
     this.users = [];
 
-    this.baseURL = (process.env.NODE_ENV === 'production') ? 'http://debate-now.azurewebsites.net/'
+    this.baseURL = (process.env.NODE_ENV === 'production') ? 'https://debate-now-api.herokuapp.com/'
       : 'http://localhost:3030/';
   }
 
