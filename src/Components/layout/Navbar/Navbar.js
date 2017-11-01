@@ -43,7 +43,7 @@ class myNavbar extends Component {
       <div className="container-fluid">
         <Navbar color="faded" light expand="md">
           <Link to={"/"} className={"navbar-brand"}>
-            <img className={""} src="/images/logo.png" width="120" height="120" alt="" />
+            <img className={""} src="../../../images/logo.png" width="120" height="120" alt="" />
           </Link>
           <NavbarToggler onClick={this.toggleNavbar} />
           <Collapse isOpen={this.state.isOpen} navbar>
