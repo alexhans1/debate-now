@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import InfoModal from './InfoModal'
 import { Link } from 'react-router-dom';
 import '../../../stylesheets/Navbar.css';
+import logo from '../../../images/logo.png';
 
 import { Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
 
@@ -43,7 +44,7 @@ class myNavbar extends Component {
       <div className="container-fluid">
         <Navbar color="faded" light expand="md">
           <Link to={"/"} className={"navbar-brand"}>
-            <img className={""} src="../../../images/logo.png" width="120" height="120" alt="" />
+            <img className={""} src={logo} width="120" height="120" alt="" />
           </Link>
           <NavbarToggler onClick={this.toggleNavbar} />
           <Collapse isOpen={this.state.isOpen} navbar>
