@@ -20,9 +20,9 @@ class App extends Component {
 
         <Switch>
           <Route exact path='/' component={Main} />
-          <Route path='${process.env.PUBLIC_URL}/event/:id' component={Event} />
+          <Route path='/event/:id' component={Event} />
 
-          <Route path='${process.env.PUBLIC_URL}/' component={Main} />
+          <Route path='/' component={Main} />
         </Switch>
       </div>
     );
