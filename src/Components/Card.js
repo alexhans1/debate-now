@@ -36,7 +36,7 @@ class Card extends Component {
         <span className={"cardTooltip"}>
           <li className={"capitalize"}>{card.role}</li>
           <li className={"uppercase"}>{card.format}</li>
-          <li>{card.language}</li>
+          <li style={{textTransform: 'none'}}>{card.language}</li>
         </span>
       )
     }
