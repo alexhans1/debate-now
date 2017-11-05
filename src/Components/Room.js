@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Team from './Team';
+import EventPasswordModal from './EventPasswordModal';
 import '../stylesheets/Room.css';
 import '../stylesheets/btn-circle.css';
 
@@ -15,7 +16,9 @@ class Room extends Component {
       editFormat: false,
       editLanguage: false,
       editableRoom: props.room,
+      showPasswordModal: false,
     };
+    this.togglePasswordModal = this.togglePasswordModal.bind(this);
   }
 
   checkRoom(includeJudges = true) {
@@ -38,10 +41,21 @@ class Room extends Component {
     return isEmpty;
   }
 
+  togglePasswordModal() {
+    this.setState({
+      showPasswordModal: !this.state.showPasswordModal,
+    });
+  }
+
   deleteRoom (id) {
-    // check if there are users in this room
-    if (this.checkRoom()) this.props.deleteRoom(id);
-    else alert('You can´t delete a room if there are people in there.. it´s dangerous!');
+    // check if user canEdit this event
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      // check if there are users in this room
+      if (this.checkRoom()) this.props.deleteRoom(id);
+      else alert('You can´t delete a room if there are people in there.. it´s dangerous!');
+    } else {
+      this.togglePasswordModal();
+    }
   }
 
   addContainer(team) {
@@ -245,6 +259,10 @@ class Room extends Component {
                 className={"btn-circle"}>
           <i className="fa fa-times" aria-hidden="true"/>
         </Button>
+
+        <EventPasswordModal showModal={this.state.showPasswordModal}
+                            toggle={this.togglePasswordModal}
+                            event={this.props.event} />
       </div>
     );
   }

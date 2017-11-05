@@ -169,7 +169,8 @@ class List extends Component {
                               name="user name" id="userName" placeholder="Register" />;
     if (this.props.event) {
       if (this.props.event.status === 'CLOSED') {
-        newUserInput = <Input type="text" name="user name" id="userName" placeholder="Event Closed" disabled />
+        newUserInput = <Input type="text" value={this.state.newUser.name}
+                              name="user name" id="userName" placeholder="Event Closed" disabled />
       }
     }
 
