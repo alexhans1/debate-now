@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../stylesheets/Main.css';
 import EventTile from "./EventTile";
 import NewEventModal from "./NewEventModal";
+import Loader from "../layout/Loader";
 import EventStore from '../../stores/EventStore';
 import * as EventActions from '../../actions/EventActions';
 
@@ -19,6 +20,7 @@ class Main extends Component {
       events: [],
       newEvent: this.newEventDefaults,
       showModal: false,
+      showLoader: false,
     };
   }
 
@@ -31,6 +33,9 @@ class Main extends Component {
 
   componentWillMount() {
     EventStore.on('change', this.getEvents);
+    this.setState({
+      showLoader: true,
+    });
     EventActions.getAllEvents();
   }
 
@@ -41,6 +46,7 @@ class Main extends Component {
   getEvents() {
     this.setState({
       events: EventStore.getAllEvents(),
+      showLoader: false,
     });
   }
 
@@ -101,8 +107,15 @@ class Main extends Component {
       return 0;
     });
 
+    let loader;
+    if (this.state.showLoader) {
+      loader = <Loader />
+    }
+
     return (
       <div className="container mb-3">
+
+        {loader}
 
         <div id="header" className="row mb-2">
           <div className={"col-md-6 mt-2"}>
