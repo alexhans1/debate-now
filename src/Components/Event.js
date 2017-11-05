@@ -104,6 +104,14 @@ class Event extends Component {
     });
   }
 
+  setEventStatus() {
+    if (this.state.event) {
+      let event = this.state.event;
+      event.status = (event.status === 'OPEN') ? 'CLOSED' : 'OPEN';
+      EventActions.updateEvent(event);
+    }
+  }
+
   render() {
 
     let addRoomNotice = null;
@@ -117,6 +125,7 @@ class Event extends Component {
     });
 
     let header = <h3>Set your debates</h3>;
+    let closeEventButton;
     if (this.state.event) {
       header = <h3>
         <b>
@@ -125,7 +134,19 @@ class Event extends Component {
         {this.state.event.date.substring(8,10)}.
         {this.state.event.date.substring(5,7)}.
         {this.state.event.date.substring(0,4)}
-      </h3>
+      </h3>;
+
+      if (JSON.parse(localStorage.getItem('canEdit')).includes(this.state.event.id)) {
+        if (this.state.event.status === 'OPEN') {
+          closeEventButton = <Button outline color={"light"} onClick={this.setEventStatus.bind(this)}>
+            Close Event
+          </Button>
+        } else {
+          closeEventButton = <Button outline color={"light"} onClick={this.setEventStatus.bind(this)}>
+            Reopen Event
+          </Button>
+        }
+      }
     }
 
     return (
@@ -139,7 +160,10 @@ class Event extends Component {
 
         <div className="row">
           <div className={"col-md-10 mb-4"}>
-            <h4>Rooms</h4>
+            <div className={"d-flex justify-content-between"}>
+              <h4>Rooms</h4>
+              {closeEventButton}
+            </div>
             <hr/>
             {
               this.state.rooms.sort((a, b) => { return b.id - a.id }).map((room) => {

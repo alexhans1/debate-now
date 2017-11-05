@@ -44,3 +44,7 @@ body {
 .border1 {
   border: solid 1px;
 }
+
+.btn-outline-light:hover {
+  color: #545454 !important;
+}

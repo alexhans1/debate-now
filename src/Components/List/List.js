@@ -165,13 +165,20 @@ class List extends Component {
 
     const backgroundColor = isActive ? 'lightgreen' : 'rgba(0, 0, 0, 0.0)';
 
+    let newUserInput = <Input type="text" value={this.state.newUser.name} onChange={this.handleChangeFor('name')}
+                              name="user name" id="userName" placeholder="Register" />;
+    if (this.props.event) {
+      if (this.props.event.status === 'CLOSED') {
+        newUserInput = <Input type="text" name="user name" id="userName" placeholder="Event Closed" disabled />
+      }
+    }
+
     return connectDropTarget(
       <div className={"list"} style={{backgroundColor}}>
         <FormGroup>
           <Label for="userName" hidden>User Name</Label>
 
-          <Input type="text" value={this.state.newUser.name} onChange={this.handleChangeFor('name')}
-                 name="user name" id="userName" placeholder="Add user" />
+          {newUserInput}
         </FormGroup>
         {cards.map((card, i) => {
           return (

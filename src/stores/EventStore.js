@@ -59,6 +59,32 @@ class EventStore extends EventEmitter {
     }
   }
 
+  async updateEvent(event) {
+    if (event) {
+      try {
+        await fetch(this.baseURL + 'event/' + event.id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            institution: event.institution,
+            type: event.type,
+            status: event.status,
+            date: event.date,
+            password: event.password,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            this.fetchEvents();
+          }
+        });
+      } catch (ex) {
+          console.error(ex);
+      }
+    }
+  }
+
   async deleteEvent(id) {
     if (id) {
       try {
@@ -83,6 +109,10 @@ class EventStore extends EventEmitter {
       }
       case "CREATE_EVENT": {
         this.createEvent(action.institution, action.eventType, action.date, action.password);
+        break;
+      }
+      case "UPDATE_EVENT": {
+        this.updateEvent(action.event);
         break;
       }
       case "DELETE_EVENT": {
