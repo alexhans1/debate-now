@@ -200,9 +200,13 @@ class Event extends Component {
           </div>
 
           <div className={"col-md-2"}>
-            <h4>
-              Users
-            </h4>
+            <div className={"d-flex justify-content-between"}>
+              <h4>
+                Users
+              </h4>
+              <i onClick={ () => { UserActions.getAllUsers(this.state.event.id) } }
+                 className="fa fa-refresh pointer" style={{fontSize: "1.8em"}} aria-hidden="true" />
+            </div>
 
             <hr/>
             <List key={"userList"}
