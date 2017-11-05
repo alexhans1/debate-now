@@ -51,6 +51,11 @@ class EventStore extends EventEmitter {
         }).then((response) => {
           if (response.ok) {
             this.fetchEvents();
+            response.json().then((newEvent) => {
+              let canEditIds = JSON.parse(localStorage.getItem('canEdit'));
+              canEditIds.push(newEvent.id);
+              localStorage.setItem('canEdit', JSON.stringify(canEditIds));
+            });
           }
         });
       } catch (ex) {
