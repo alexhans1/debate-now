@@ -3,6 +3,7 @@ import '../../stylesheets/Main.css';
 import '../../stylesheets/btn-circle.css';
 import { Link } from 'react-router-dom';
 import DeleteEventModal from './DeleteEventModal';
+import EventPasswordModal from '../EventPasswordModal';
 import EditEventModal from './EditEventModal';
 import * as EventActions from '../../actions/EventActions';
 
@@ -16,6 +17,7 @@ class EventTile extends Component {
       isHovering: false,
       showDeleteModal: false,
       showEditModal: false,
+      showPasswordModal: false,
     }
   }
 
@@ -35,9 +37,26 @@ class EventTile extends Component {
   }
 
   toggleEditModal(e) {
-    if (!this.state.showEditModal) e.preventDefault();
+    if (!this.state.showEditModal) {
+      e.preventDefault();
+      console.log(123);
+      if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+        this.setState({
+          showEditModal: !this.state.showEditModal,
+        });
+      } else {
+        this.togglePasswordModal();
+      }
+    } else {
+      this.setState({
+        showEditModal: !this.state.showEditModal,
+      });
+    }
+  }
+
+  togglePasswordModal() {
     this.setState({
-      showEditModal: !this.state.showEditModal,
+      showPasswordModal: !this.state.showPasswordModal,
     });
   }
 
@@ -97,6 +116,10 @@ class EventTile extends Component {
 
         <EditEventModal showModal={this.state.showEditModal} toggle={this.toggleEditModal.bind(this)}
                        event={event} handleSubmit={EventTile.handleEditClick.bind(this)} />
+
+        <EventPasswordModal showModal={this.state.showPasswordModal}
+                            toggle={this.togglePasswordModal.bind(this)}
+                            event={event} />
       </div>
     );
   }
