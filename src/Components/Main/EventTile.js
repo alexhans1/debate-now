@@ -7,30 +7,26 @@ import EventPasswordModal from '../EventPasswordModal';
 import EditEventModal from './EditEventModal';
 import * as EventActions from '../../actions/EventActions';
 
-import {Button} from 'reactstrap';
+import { Collapse, Card, CardImg, CardBody,
+  CardTitle, CardSubtitle, Button } from 'reactstrap';
 
 class EventTile extends Component {
 
   constructor() {
     super();
     this.state = {
-      isHovering: false,
       showDeleteModal: false,
       showEditModal: false,
       showPasswordModal: false,
+      collapse: false,
     }
   }
 
-  handleMouseOver() {
-    this.setState({isHovering: true});
-  }
-
-  handleMouseOut() {
-    this.setState({isHovering: false});
-  }
-
   toggleDeleteModal(e) {
-    if (!this.state.showDeleteModal) e.preventDefault();
+    if (!this.state.showDeleteModal) {
+      e.preventDefault();
+      this.toggleCollapse();
+    }
     this.setState({
       showDeleteModal: !this.state.showDeleteModal,
     });
@@ -47,6 +43,7 @@ class EventTile extends Component {
       } else {
         this.togglePasswordModal();
       }
+      this.toggleCollapse();
     } else {
       this.setState({
         showEditModal: !this.state.showEditModal,
@@ -60,6 +57,10 @@ class EventTile extends Component {
     });
   }
 
+  toggleCollapse() {
+    this.setState({ collapse: !this.state.collapse });
+  }
+
   static handleDeleteClick(id) {
     EventActions.deleteEvent(id);
   };
@@ -71,56 +72,79 @@ class EventTile extends Component {
   render() {
     const { event } = this.props;
 
-    let hoverStyle = {};
-    if (this.state.isHovering) {
-      hoverStyle = {
-        backgroundColor: "#e9352c",
-        color: "#e5e5e5",
-      }
-    }
-
     const day = event.date.substring(8,10),
       month = event.date.substring(5,7),
       year = event.date.substring(0,4);
 
+    const cardHeader = <CardImg top width="100%"
+                          src="https://images.pexels.com/photos/633481/pexels-photo-633481.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+                          alt="Card image cap" />;
+
     return (
-      <div onMouseOver={this.handleMouseOver.bind(this)} onMouseOut={this.handleMouseOut.bind(this)}
-           className={"col-md-2 mb-3 eventTile bg-navy"}
-           style={hoverStyle}>
+      <div className={"col-md-4 mb-3 eventTile"}>
         <Link to={"/event/" + event.id}>
-          <p>
-            {event.institution}
-          </p>
+          <Card style={{boxShadow: '2px 3px 3px #424242'}}>
+            {cardHeader}
+            <CardBody className={"black"}>
+              <CardTitle>{event.institution}</CardTitle>
+              <CardSubtitle>{event.type} - {day}.{month}.{year}</CardSubtitle>
+            </CardBody>
+          </Card>
+        </Link>
 
-          <p>
-            {event.type}
-          </p>
-
-          <p>
-            {day}.{month}.{year}
-          </p>
-
-          <Button outline color={"info"} className={"btn-circle-sm editEvent"}
+        <Button outline size={"sm"} color="dark" onClick={this.toggleCollapse.bind(this)} className={"editEvent"}>
+          <i className="fa fa-bars" aria-hidden="true" />
+        </Button>
+        <Collapse isOpen={this.state.collapse} cssModule={{transition: 'none'}}>
+          <Button size={"sm"} color={"dark"}
                   onClick={this.toggleEditModal.bind(this)}>
             <i className="fa fa-pencil" aria-hidden="true" />
           </Button>
-
-          <Button outline color={"info"} className={"btn-circle-sm deleteEvent"}
+          <br/>
+          <Button size={"sm"} color={"dark"}
                   onClick={this.toggleDeleteModal.bind(this)}>
             <i className="fa fa-times" aria-hidden="true" />
           </Button>
-        </Link>
+        </Collapse>
 
         <DeleteEventModal showModal={this.state.showDeleteModal} toggle={this.toggleDeleteModal.bind(this)}
-                       event={event} handleSubmit={EventTile.handleDeleteClick.bind(this)} />
+                          event={event} handleSubmit={EventTile.handleDeleteClick.bind(this)} />
 
         <EditEventModal showModal={this.state.showEditModal} toggle={this.toggleEditModal.bind(this)}
-                       event={event} handleSubmit={EventTile.handleEditClick.bind(this)} />
+                        event={event} handleSubmit={EventTile.handleEditClick.bind(this)} />
 
         <EventPasswordModal showModal={this.state.showPasswordModal}
                             toggle={this.togglePasswordModal.bind(this)}
                             event={event} />
       </div>
+
+      // <div onMouseOver={this.handleMouseOver.bind(this)} onMouseOut={this.handleMouseOut.bind(this)}
+      //      className={"col-md-2 mb-3 eventTile bg-navy"}
+      //      style={hoverStyle}>
+      //   <Link to={"/event/" + event.id}>
+      //     <p>
+      //       {event.institution}
+      //     </p>
+      //
+      //     <p>
+      //       {event.type}
+      //     </p>
+      //
+      //     <p>
+      //       {day}.{month}.{year}
+      //     </p>
+      //
+      //     <Button outline color={"info"} className={"btn-circle-sm editEvent"}
+      //             onClick={this.toggleEditModal.bind(this)}>
+      //       <i className="fa fa-pencil" aria-hidden="true" />
+      //     </Button>
+      //
+      //     <Button outline color={"info"} className={"btn-circle-sm deleteEvent"}
+      //             onClick={this.toggleDeleteModal.bind(this)}>
+      //       <i className="fa fa-times" aria-hidden="true" />
+      //     </Button>
+      //   </Link>
+      // </div>
     );
   }
 }
