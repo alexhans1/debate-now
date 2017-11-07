@@ -3,6 +3,7 @@ import '../../stylesheets/Main.css';
 import '../../stylesheets/btn-circle.css';
 import { Link } from 'react-router-dom';
 import DeleteEventModal from './DeleteEventModal';
+import EditEventModal from './EditEventModal';
 import * as EventActions from '../../actions/EventActions';
 
 import {Button} from 'reactstrap';
@@ -13,7 +14,8 @@ class EventTile extends Component {
     super();
     this.state = {
       isHovering: false,
-      showModal: false,
+      showDeleteModal: false,
+      showEditModal: false,
     }
   }
 
@@ -25,15 +27,26 @@ class EventTile extends Component {
     this.setState({isHovering: false});
   }
 
-  toggleModal(e) {
-    if (!this.state.showModal) e.preventDefault();
+  toggleDeleteModal(e) {
+    if (!this.state.showDeleteModal) e.preventDefault();
     this.setState({
-      showModal: !this.state.showModal,
+      showDeleteModal: !this.state.showDeleteModal,
+    });
+  }
+
+  toggleEditModal(e) {
+    if (!this.state.showEditModal) e.preventDefault();
+    this.setState({
+      showEditModal: !this.state.showEditModal,
     });
   }
 
   static handleDeleteClick(id) {
     EventActions.deleteEvent(id);
+  };
+
+  static handleEditClick(event) {
+    EventActions.updateEvent(event);
   };
 
   render() {
@@ -68,14 +81,22 @@ class EventTile extends Component {
             {day}.{month}.{year}
           </p>
 
+          <Button outline color={"info"} className={"btn-circle-sm editEvent"}
+                  onClick={this.toggleEditModal.bind(this)}>
+            <i className="fa fa-pencil" aria-hidden="true" />
+          </Button>
+
           <Button outline color={"info"} className={"btn-circle-sm deleteEvent"}
-                  onClick={this.toggleModal.bind(this)}>
+                  onClick={this.toggleDeleteModal.bind(this)}>
             <i className="fa fa-times" aria-hidden="true" />
           </Button>
         </Link>
 
-        <DeleteEventModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
+        <DeleteEventModal showModal={this.state.showDeleteModal} toggle={this.toggleDeleteModal.bind(this)}
                        event={event} handleSubmit={EventTile.handleDeleteClick.bind(this)} />
+
+        <EditEventModal showModal={this.state.showEditModal} toggle={this.toggleEditModal.bind(this)}
+                       event={event} handleSubmit={EventTile.handleEditClick.bind(this)} />
       </div>
     );
   }

@@ -41,6 +41,12 @@
   text-decoration: none;
 }
 
+.editEvent {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
 .deleteEvent {
   position: absolute;
   top: 8px;
