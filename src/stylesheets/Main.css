@@ -2,6 +2,7 @@
   .eventTile {
     margin-right: 30px;
     margin-left: 29px;
+    max-width: 81vw;
   }
 }
 

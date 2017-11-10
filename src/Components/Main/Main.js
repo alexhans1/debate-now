@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../stylesheets/Main.css';
 import EventTile from "./EventTile";
-import NewEventModal from "./NewEventModal";
+import EventModal from "./EventModal";
 import Loader from "../layout/Loader";
 import EventStore from '../../stores/EventStore';
 import * as EventActions from '../../actions/EventActions';
@@ -18,18 +18,10 @@ class Main extends Component {
     this.state = {
       // get all Events
       events: [],
-      newEvent: this.newEventDefaults,
-      showModal: false,
+      showNewEventModal: false,
       showLoader: false,
     };
   }
-
-  newEventDefaults = {
-    institution: '',
-    type: '',
-    date: (new Date()).toISOString().substring(0,10),
-    password: '',
-  };
 
   componentWillMount() {
     EventStore.on('change', this.getEvents);
@@ -54,31 +46,20 @@ class Main extends Component {
     EventActions.createEvent(institution, type, date, password);
   }
 
-  handleChangeFor = (propertyName) => (e) => {
-    const { newEvent } = this.state;
-    const eventToAdd = {
-      ...newEvent,
-      [propertyName]: e.target.value
-    };
-    this.setState({ newEvent: eventToAdd, });
-  };
-
-  handleAddEventSubmit() {
-    if (this.state.newEvent.institution && this.state.newEvent.type) {
-      Main.createEvent(this.state.newEvent.institution,
-        this.state.newEvent.type,
-        this.state.newEvent.date,
-        this.state.newEvent.password);
-      this.setState({
-        newEvent: this.newEventDefaults,
-        showModal: false,
-      });
+  handleAddEventSubmit(event) {
+    if (event.institution && event.type) {
+      Main.createEvent(
+        event.institution,
+        event.type,
+        event.date,
+        event.password);
+      this.toggleModal();
     }
   };
 
   toggleModal() {
     this.setState({
-      showModal: !this.state.showModal,
+      showNewEventModal: !this.state.showNewEventModal,
     });
   }
 
@@ -156,9 +137,8 @@ class Main extends Component {
           </div>
         </div>
 
-        <NewEventModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
-                      handleChange={this.handleChangeFor} newEvent={this.state.newEvent}
-                      handleSubmit={this.handleAddEventSubmit} />
+        <EventModal showModal={this.state.showNewEventModal} toggle={this.toggleModal.bind(this)}
+                    handleSubmit={this.handleAddEventSubmit} />
       </div>
     );
   }

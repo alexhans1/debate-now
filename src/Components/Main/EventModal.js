@@ -3,7 +3,7 @@ import '../../stylesheets/toggleSlider.css';
 
 import {Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody,} from 'reactstrap'
 
-class NewEventModal extends Component {
+class EventModal extends Component {
 
   constructor(props) {
     super(props);
@@ -11,10 +11,17 @@ class NewEventModal extends Component {
       props.event.date = new Date(props.event.date).toISOString().substring(0, 10);
     }
     this.state = {
-      event: props.event,
+      event: props.event || this.newEventDefaults,
     };
     this.toggle = this.toggle.bind(this);
   }
+
+  newEventDefaults = {
+    institution: '',
+    type: '',
+    date: new Date().toISOString().substring(0,10),
+    password: '',
+  };
 
   toggle() {
     this.props.toggle();
@@ -43,12 +50,12 @@ class NewEventModal extends Component {
 
   render() {
 
-
-
     return (
       <div>
         <Modal isOpen={this.props.showModal} toggle={this.toggle}>
-          <ModalHeader className={"black"} toggle={this.toggle}>Edit event</ModalHeader>
+          <ModalHeader className={"black"} toggle={this.toggle}>
+            { this.props.editMode ? "Edit event" : "Add new event" }
+          </ModalHeader>
           <ModalBody className={"black"}>
             <Form onSubmit={this.handleSubmit.bind(this)}>
 
@@ -91,17 +98,20 @@ class NewEventModal extends Component {
                 </Col>
               </FormGroup>
 
-              <FormGroup row>
-                <Label for="eventStatus" sm={3}>Status</Label>
-                <Col sm={9}>
-                  <div className="slider">
-                    <input type="checkbox" onChange={this.toggleEventStatus.bind(this)}
-                           value={this.state.event.status === 'OPEN'} checked={this.state.event.status === 'OPEN'}
-                           name="event status" id="eventStatus" />
-                    <label htmlFor="eventStatus" />
-                  </div>
-                </Col>
-              </FormGroup>
+              { this.props.editMode ?
+                <FormGroup row>
+                  <Label for="eventStatus" sm={3}>Status</Label>
+                  <Col sm={9}>
+                    <div className="slider">
+                      <input type="checkbox" onChange={this.toggleEventStatus.bind(this)}
+                             value={this.state.event.status === 'OPEN'} checked={this.state.event.status === 'OPEN'}
+                             name="event status" id="eventStatus" />
+                      <label htmlFor="eventStatus" />
+                    </div>
+                  </Col>
+                </FormGroup> :
+                null
+              }
 
               <Button color={"info"} className={"pull-right"}>Submit</Button>
             </Form>
@@ -112,4 +122,4 @@ class NewEventModal extends Component {
   }
 }
 
-export default NewEventModal;
+export default EventModal;
