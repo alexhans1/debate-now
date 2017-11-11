@@ -18,6 +18,10 @@ class EventModal extends Component {
       displayImages: [],
       loadImages: false,
     };
+
+    this.baseURL = (process.env.NODE_ENV === 'production') ? 'https://debate-now-api.herokuapp.com/'
+      : 'http://localhost:3030/';
+
     this.imagesPage = 1;
     this.toggle = this.toggle.bind(this);
   }
@@ -48,7 +52,7 @@ class EventModal extends Component {
     }
 
     try {
-      await fetch('http://localhost:3030/images/pexels/' +
+      await fetch(this.baseURL + 'images/pexels/' +
         (this.imagesPage || 1) + '/' +
         ((window.innerWidth <= 768) ? 1 : 3) + '/' + // only load one image when on xs screens
         (!this.state.imageSearchString ? '' : this.state.imageSearchString), {
