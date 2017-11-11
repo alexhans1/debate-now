@@ -34,6 +34,7 @@ class InfoModal extends Component {
             </p>
           </ModalBody>
           <ModalFooter className={"black"}>
+            <p className={"mr-auto"}>Photos provided by <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer">Pexels</a>.</p>
             <Button outline color={"danger"} onClick={this.toggle}>Close</Button>
           </ModalFooter>
         </Modal>

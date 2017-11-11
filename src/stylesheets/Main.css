@@ -31,3 +31,21 @@
   top: 8px;
   right: 8px;
 }
+
+.pexel-navigate:hover {
+  background-color: #e6e6e6;
+}
+
+#pexel-images img {
+  width: 100%;
+  height: auto;
+  border: #e6e6e6 1px solid;
+}
+
+#pexel-images img:hover, .highlight {
+  border: groove #DC3545 2px;
+}
+
+.highlight {
+  border: groove #DC3545 2px !important;
+}

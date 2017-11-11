@@ -34,7 +34,7 @@ class EventStore extends EventEmitter {
     return event || null;
   }
 
-  async createEvent(institution, type, date, password) {
+  async createEvent(institution, type, date, password, image) {
     if (institution && type && password) {
       try {
         await fetch(this.baseURL + 'event', {
@@ -47,6 +47,7 @@ class EventStore extends EventEmitter {
             type,
             date,
             password,
+            image,
           })
         }).then((response) => {
           if (response.ok) {
@@ -78,6 +79,7 @@ class EventStore extends EventEmitter {
             status: event.status,
             date: event.date,
             password: event.password,
+            image: event.image,
           }),
         }).then((response) => {
           if (response.ok) {
@@ -113,7 +115,7 @@ class EventStore extends EventEmitter {
         break;
       }
       case "CREATE_EVENT": {
-        this.createEvent(action.institution, action.eventType, action.date, action.password);
+        this.createEvent(action.institution, action.eventType, action.date, action.password, action.image);
         break;
       }
       case "UPDATE_EVENT": {

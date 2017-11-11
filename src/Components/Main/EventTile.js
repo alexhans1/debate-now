@@ -35,7 +35,6 @@ class EventTile extends Component {
   toggleEditModal(e) {
     if (!this.state.showEditModal) {
       e.preventDefault();
-      console.log(123);
       if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
         this.setState({
           showEditModal: !this.state.showEditModal,
@@ -77,7 +76,8 @@ class EventTile extends Component {
       year = event.date.substring(0,4);
 
     const cardHeader = <CardImg top width="100%"
-                                src="https://images.pexels.com/photos/214661/pexels-photo-214661.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+                                src={event.image ||
+                                "https://images.pexels.com/photos/212311/pexels-photo-212311.jpeg?w=280&h=200&fit=crop&auto=compress&cs=tinysrgb"}
                                 alt="Card image cap" />;
 
     return (

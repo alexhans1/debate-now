@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../stylesheets/Main.css';
 import EventTile from "./EventTile";
 import EventModal from "./EventModal";
-import Loader from "../layout/Loader";
+import Loader from "../layout/Loader/Loader";
 import EventStore from '../../stores/EventStore';
 import * as EventActions from '../../actions/EventActions';
 
@@ -42,8 +42,8 @@ class Main extends Component {
     });
   }
 
-  static createEvent (institution, type, date, password) {
-    EventActions.createEvent(institution, type, date, password);
+  static createEvent (institution, type, date, password, image) {
+    EventActions.createEvent(institution, type, date, password, image);
   }
 
   handleAddEventSubmit(event) {
@@ -52,7 +52,9 @@ class Main extends Component {
         event.institution,
         event.type,
         event.date,
-        event.password);
+        event.password,
+        event.image,
+      );
       this.toggleModal();
     }
   };
