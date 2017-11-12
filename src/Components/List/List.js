@@ -5,7 +5,6 @@ import Card from '../Card';
 import EventPasswordModal from '../EventPasswordModal';
 import { DropTarget } from 'react-dnd';
 import '../../stylesheets/List.css'
-import remove from 'lodash/remove';
 import * as UserActions from '../../actions/UserActions';
 
 import {FormGroup, Label, Input} from 'reactstrap'
@@ -26,7 +25,8 @@ class List extends Component {
       showPasswordModal: false,
       newUser: this.newUserDefaults,
       showModal: false,
-      fixListPosition: false,
+      fixListPosition: null,
+      scrollableList: null,
     };
 
     this.togglePasswordModal = this.togglePasswordModal.bind(this);
@@ -48,6 +48,13 @@ class List extends Component {
 
   componentDidMount() {
     this.listTopY = document.getElementById("list").getBoundingClientRect().top + window.scrollY;
+
+    let listElement = document.getElementById("list");
+    if (listElement.scrollHeight + 30 < window.innerHeight) {
+      this.setState({
+        scrollableList: "scrollableList",
+      });
+    }
   }
 
   componentWillUnmount(){
@@ -60,20 +67,14 @@ class List extends Component {
     let listClientRect = listElement.getBoundingClientRect();
     if (!this.state.fixListPosition && listClientRect.top < 15) {
       // set position: fixed
-      listElement.style.maxWidth = listElement.offsetWidth + 'px' ;
-      listElement.classList.add("fixListPosition");
-      if (listElement.offsetHeight + 15 > window.innerHeight) {
-        listElement.classList.add("scrollableList");
-      }
+      listElement.style.maxWidth = listElement.offsetWidth + 'px';
       this.setState({
-        fixListPosition: true,
+        fixListPosition: 'fixListPosition',
       });
     } else if (this.state.fixListPosition && window.scrollY < this.listTopY - 15) {
       // remove position: fixed
-      listElement.classList.remove("fixListPosition");
-      listElement.classList.remove("scrollableList");
       this.setState({
-        fixListPosition: false,
+        fixListPosition: null,
       });
     }
   }
@@ -129,7 +130,27 @@ class List extends Component {
         showModal: false,
       });
     }
+    let listElement = document.getElementById("list");
+    if (listElement.offsetHeight + 30 > window.innerHeight) {
+      this.setState({
+        scrollableList: "scrollableList",
+      });
+    }
   };
+
+  deleteCard(id) {
+    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
+      this.props.deleteUser(id);
+      let listElement = document.getElementById("list");
+      if (listElement.scrollHeight + 30 < window.innerHeight) {
+        this.setState({
+          scrollableList: null,
+        });
+      }
+    } else {
+      this.togglePasswordModal();
+    }
+  }
 
   toggleModal() {
     this.setState({
@@ -182,19 +203,6 @@ class List extends Component {
     }
   }
 
-  deleteCard(id) {
-    if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
-      let newUsersArray = this.state.cards.slice();
-      remove(newUsersArray, {id});
-      this.setState({
-        cards: newUsersArray,
-      });
-      this.props.deleteUser(id);
-    } else {
-      this.togglePasswordModal();
-    }
-  }
-
   render() {
     const { cards } = this.state;
     const { canDrop, isOver, connectDropTarget } = this.props;
@@ -213,7 +221,8 @@ class List extends Component {
     }
 
     return connectDropTarget(
-      <div id={"list"} style={{backgroundColor}}>
+      <div id={"list"} style={{backgroundColor}}
+           className={this.state.fixListPosition + ' ' + this.state.scrollableList}>
         <FormGroup>
           <Label for="userName" hidden>User Name</Label>
 

@@ -5,7 +5,7 @@
 
 html::-webkit-scrollbar-track
 {
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: transparent;
   margin-right: 2px;
 }
@@ -24,7 +24,7 @@ html::-webkit-scrollbar
 
 html::-webkit-scrollbar-thumb
 {
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: rgba(0,0,0,0.3);
   margin-right: 2px;
 }
