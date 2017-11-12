@@ -26,6 +26,7 @@ class List extends Component {
       showPasswordModal: false,
       newUser: this.newUserDefaults,
       showModal: false,
+      fixListPosition: false,
     };
 
     this.togglePasswordModal = this.togglePasswordModal.bind(this);
@@ -42,10 +43,47 @@ class List extends Component {
 
   componentWillMount(){
     document.addEventListener("keypress", this.handleKeyPress.bind(this));
+    document.addEventListener("scroll", this.handleScroll.bind(this));
+  }
+
+  componentDidMount() {
+    this.listTopY = document.getElementById("list").getBoundingClientRect().top + window.scrollY;
   }
 
   componentWillUnmount(){
     document.removeEventListener("keypress", this.handleKeyPress.bind(this));
+    document.removeEventListener("scroll", this.handleScroll.bind(this));
+  }
+
+  handleScroll() {
+    let listElement = document.getElementById("list");
+    let listClientRect = listElement.getBoundingClientRect();
+    if (!this.state.fixListPosition && listClientRect.top < 15) {
+      // set position: fixed
+      listElement.style.maxWidth = listElement.offsetWidth + 'px' ;
+      listElement.classList.add("fixListPosition");
+      if (listElement.offsetHeight + 15 > window.innerHeight) {
+        listElement.classList.add("scrollableList");
+      }
+      this.setState({
+        fixListPosition: true,
+      });
+    } else if (this.state.fixListPosition && window.scrollY < this.listTopY - 15) {
+      // remove position: fixed
+      listElement.classList.remove("fixListPosition");
+      listElement.classList.remove("scrollableList");
+      this.setState({
+        fixListPosition: false,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.state.showModal && prevState.showModal) {
+      setTimeout(() => {
+        this.newUserInput.focus();
+      }, 10)
+    }
   }
 
   togglePasswordModal() {
@@ -59,8 +97,7 @@ class List extends Component {
       if (this.state.newUser.name === '') {
         // TODO mark input box red
 
-      }
-      else {
+      } else {
         // open modal
         this.setState({
           showModal: true,
@@ -166,7 +203,8 @@ class List extends Component {
     const backgroundColor = isActive ? 'lightgreen' : 'rgba(0, 0, 0, 0.0)';
 
     let newUserInput = <Input type="text" value={this.state.newUser.name} onChange={this.handleChangeFor('name')}
-                              name="user name" id="userName" placeholder="Register" />;
+                              name="user name" id="userName" placeholder="Register"
+                              innerRef={ref => {this.newUserInput = ref}} />;
     if (this.props.event) {
       if (this.props.event.status === 'CLOSED') {
         newUserInput = <Input type="text" value={this.state.newUser.name}
@@ -175,7 +213,7 @@ class List extends Component {
     }
 
     return connectDropTarget(
-      <div className={"list"} style={{backgroundColor}}>
+      <div id={"list"} style={{backgroundColor}}>
         <FormGroup>
           <Label for="userName" hidden>User Name</Label>
 

@@ -1,6 +1,38 @@
-.list {
+#list {
   min-height: 414px;
   padding: 10px;
 
   border: solid #ededed 1px;
 }
+
+.fixListPosition {
+  position: fixed;
+  top: 15px;
+}
+
+.scrollableList {
+  overflow-y: scroll;
+  height: calc(100vh - 30px);
+}
+
+#list::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: transparent;
+  margin-right: 2px;
+}
+
+#list::-webkit-scrollbar
+{
+  width: 5px;
+  background-color: transparent;
+  margin-right: 2px;
+}
+
+#list::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.3);
+  margin-right: 2px;
+}
+

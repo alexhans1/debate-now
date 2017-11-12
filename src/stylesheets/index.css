@@ -3,6 +3,32 @@
   --gradient-color2: #36cc9e;
 }
 
+html::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: transparent;
+  margin-right: 2px;
+}
+
+html::-webkit-scrollbar
+{
+
+  background: var(--gradient-color1); /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #35C1B6, #36CC9E); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #35C1B6, #36CC9E); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #35C1B6, #36CC9E); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #35C1B6, #36CC9E); /* Standard syntax */
+
+  margin-right: 2px;
+}
+
+html::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.3);
+  margin-right: 2px;
+}
+
 body {
   color: white !important;
 

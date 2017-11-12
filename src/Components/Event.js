@@ -229,7 +229,7 @@ class Event extends Component {
                 Users
               </h4>
               <i onClick={ () => { UserActions.getAllUsers(this.state.event.id) } }
-                 className="fa fa-refresh pointer" style={{fontSize: "1.8em"}} aria-hidden="true" />
+                 className="fa fa-refresh pointer" style={{fontSize: "1.8em", paddingBottom: "10px"}} aria-hidden="true" />
             </div>
 
             <hr/>

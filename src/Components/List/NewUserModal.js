@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 
-import {Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody,} from 'reactstrap'
+import {Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody,} from 'reactstrap'
 
 class NewUserModal extends Component {
 
   constructor() {
     super();
-    this.state = {
-      nameClass: '',
-    };
     this.toggle = this.toggle.bind(this);
   }
 
@@ -20,10 +17,14 @@ class NewUserModal extends Component {
     e.preventDefault();
     if (this.props.newUser.name !== '') {
       this.props.handleSubmit();
-    } else {
-      this.setState({
-        nameClass: 'border--red',
-      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.showModal && nextProps.showModal) {
+      setTimeout(() => {
+        this.submitButton.focus();
+      }, 10)
     }
   }
 
@@ -79,7 +80,10 @@ class NewUserModal extends Component {
                   </Input>
                 </Col>
               </FormGroup>
-              <Button color={"info"} className={"pull-right"}>Submit</Button>
+              <button className={"pull-right btn btn-info pull-right"}
+                      ref={ref => {this.submitButton = ref}} >
+                Submit
+              </button>
             </Form>
           </ModalBody>
         </Modal>
