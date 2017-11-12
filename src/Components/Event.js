@@ -138,11 +138,13 @@ class Event extends Component {
 
       if (JSON.parse(localStorage.getItem('canEdit')).includes(this.state.event.id)) {
         if (this.state.event.status === 'OPEN') {
-          closeEventButton = <Button outline color={"light"} onClick={this.setEventStatus.bind(this)}>
+          closeEventButton = <Button outline color={"light"}
+                                     onClick={this.setEventStatus.bind(this)} >
             Close Event
           </Button>
         } else {
-          closeEventButton = <Button outline color={"light"} onClick={this.setEventStatus.bind(this)}>
+          closeEventButton = <Button outline color={"light"}
+                                     onClick={this.setEventStatus.bind(this)} >
             Reopen Event
           </Button>
         }
@@ -160,9 +162,12 @@ class Event extends Component {
 
         <div className="row">
           <div className={"col-md-10 mb-4"}>
-            <div className={"d-flex justify-content-between"}>
-              <h4>Rooms</h4>
+            <div className={"d-flex"}>
+              <h4 className={"mr-auto"}>Rooms</h4>
               {closeEventButton}
+              <Button color={"danger"} onClick={this.toggleModal} className={"ml-3"}>
+                Add Room
+              </Button>
             </div>
             <hr/>
             {
@@ -228,8 +233,11 @@ class Event extends Component {
               <h4>
                 Users
               </h4>
-              <i onClick={ () => { UserActions.getAllUsers(this.state.event.id) } }
-                 className="fa fa-refresh pointer" style={{fontSize: "1.8em", paddingBottom: "10px"}} aria-hidden="true" />
+              <Button outline color={"light"}
+                      onClick={ () => { UserActions.getAllUsers(this.state.event.id) }}
+                      style={{paddingBottom: "-2px"}}>
+                <i className="fa fa-refresh pointer" aria-hidden="true" />
+              </Button>
             </div>
 
             <hr/>
