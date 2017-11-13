@@ -38,6 +38,22 @@ class List extends Component {
       this.setState({
         cards: nextProps.users,
       });
+
+      setTimeout(() => {
+        let listElement = document.getElementById("list");
+        if (listElement) {
+          if (listElement.scrollHeight + 30 > window.innerHeight && !this.state.scrollableList) {
+            this.setState({
+              scrollableList: "scrollableList",
+            });
+          }
+          if (listElement.scrollHeight + 30 < window.innerHeight && this.state.scrollableList) {
+            this.setState({
+              scrollableList: null,
+            });
+          }
+        }
+      }, 10)
     }
   }
 
@@ -46,37 +62,13 @@ class List extends Component {
     document.addEventListener("scroll", this.handleScroll.bind(this));
   }
 
-  componentDidMount() {
-    this.listTopY = document.getElementById("list").getBoundingClientRect().top + window.scrollY;
-
-    let listElement = document.getElementById("list");
-    if (listElement.scrollHeight + 30 < window.innerHeight) {
-      this.setState({
-        scrollableList: "scrollableList",
-      });
-    }
-  }
-
   componentWillUnmount(){
     document.removeEventListener("keypress", this.handleKeyPress.bind(this));
     document.removeEventListener("scroll", this.handleScroll.bind(this));
   }
 
-  handleScroll() {
-    let listElement = document.getElementById("list");
-    let listClientRect = listElement.getBoundingClientRect();
-    if (!this.state.fixListPosition && listClientRect.top < 15) {
-      // set position: fixed
-      listElement.style.maxWidth = listElement.offsetWidth + 'px';
-      this.setState({
-        fixListPosition: 'fixListPosition',
-      });
-    } else if (this.state.fixListPosition && window.scrollY < this.listTopY - 15) {
-      // remove position: fixed
-      this.setState({
-        fixListPosition: null,
-      });
-    }
+  componentDidMount() {
+    this.listTopY = document.getElementById("list").getBoundingClientRect().top + window.scrollY;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -84,6 +76,25 @@ class List extends Component {
       setTimeout(() => {
         this.newUserInput.focus();
       }, 10)
+    }
+  }
+
+  handleScroll() {
+    let listElement = document.getElementById("list");
+    if (listElement) {
+      let listClientRect = listElement.getBoundingClientRect();
+      if (!this.state.fixListPosition && listClientRect.top < 15) {
+        // set position: fixed
+        listElement.style.maxWidth = listElement.offsetWidth + 'px';
+        this.setState({
+          fixListPosition: 'fixListPosition',
+        });
+      } else if (this.state.fixListPosition && window.scrollY < this.listTopY - 15) {
+        // remove position: fixed
+        this.setState({
+          fixListPosition: null,
+        });
+      }
     }
   }
 
@@ -130,23 +141,11 @@ class List extends Component {
         showModal: false,
       });
     }
-    let listElement = document.getElementById("list");
-    if (listElement.offsetHeight + 30 > window.innerHeight) {
-      this.setState({
-        scrollableList: "scrollableList",
-      });
-    }
   };
 
   deleteCard(id) {
     if (JSON.parse(localStorage.getItem('canEdit')).includes(this.props.event.id)) {
       this.props.deleteUser(id);
-      let listElement = document.getElementById("list");
-      if (listElement.scrollHeight + 30 < window.innerHeight) {
-        this.setState({
-          scrollableList: null,
-        });
-      }
     } else {
       this.togglePasswordModal();
     }
