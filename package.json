@@ -1,7 +1,7 @@
 {
   "name": "debate-now",
   "version": "0.1.0",
-  "homepage": "https://alexhans1.github.io/",
+  "homepage": "http://now.debating.de/",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
@@ -22,7 +22,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "just-deploy": "gh-pages -d build"
+    "deploy": "move build\\index.html build\\200.html && surge build now.debating.de",
+    "just-deploy": "surge build now.debating.de"
   }
 }
