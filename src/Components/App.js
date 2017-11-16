@@ -3,6 +3,7 @@ import Main from "./Main/Main";
 import Event from "./Event";
 import Navbar from './layout/Navbar/Navbar';
 import { Switch, Route,  } from 'react-router-dom';
+import uniq from 'lodash/uniq';
 
 class App extends Component {
 
@@ -10,7 +11,10 @@ class App extends Component {
     super();
     if (!localStorage.getItem('canEdit')) {
       // initialize with the two example events
-      localStorage.setItem('canEdit', JSON.stringify([51,61]));
+      localStorage.setItem('canEdit', JSON.stringify([51, 61]));
+    } else {
+      let ids = JSON.parse(localStorage.getItem('canEdit'));
+      localStorage.setItem('canEdit', JSON.stringify(uniq([...ids, 51, 61])));
     }
   }
 
