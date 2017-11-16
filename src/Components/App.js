@@ -9,7 +9,8 @@ class App extends Component {
   constructor() {
     super();
     if (!localStorage.getItem('canEdit')) {
-      localStorage.setItem('canEdit', JSON.stringify([]));
+      // initialize with the two example events
+      localStorage.setItem('canEdit', JSON.stringify([51,61]));
     }
   }
 
