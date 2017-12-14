@@ -37,6 +37,7 @@ class Card extends Component {
           <li className={"capitalize"}>{card.role}</li>
           <li className={"uppercase"}>{card.format}</li>
           <li style={{textTransform: 'none'}}>{card.language}</li>
+          {card.teamPartner ? <li style={{textTransform: 'none'}}>{card.teamPartner}</li> : null}
         </span>
       )
     }

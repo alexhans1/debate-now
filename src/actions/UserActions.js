@@ -7,13 +7,14 @@ export function getAllUsers(eventId) {
   });
 }
 
-export function createUser(name, role, format, language, eventId) {
+export function createUser(name, role, format, language, teamPartner, eventId) {
   dispatcher.dispatch({
     type: "CREATE_USER",
     name,
     role,
     format,
     language,
+    teamPartner,
     eventId,
   });
 }

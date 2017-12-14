@@ -24,7 +24,7 @@ class UserStore extends EventEmitter {
     }
   }
 
-  async createUser(name, role, format, language, eventId) {
+  async createUser(name, role, format, language, teamPartner, eventId) {
     if (typeof format !== 'string' || typeof language !== 'string') {
       console.error('Wrong type at createRoom in RoomStore.');
       return
@@ -42,6 +42,7 @@ class UserStore extends EventEmitter {
             role,
             format,
             language,
+            teamPartner,
             eventId,
           })
         }).then((response) => {
@@ -130,7 +131,7 @@ class UserStore extends EventEmitter {
         break;
       }
       case "CREATE_USER": {
-        this.createUser(action.name, action.role, action.format, action.language, action.eventId);
+        this.createUser(action.name, action.role, action.format, action.language, action.teamPartner, action.eventId);
         break;
       }
       case "DELETE_USER": {

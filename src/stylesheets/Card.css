@@ -23,7 +23,7 @@
 .cardTooltip {
   font-size: small;
   position: absolute;
-  bottom: -75px;
+  top: 46px;
   left: 8px;
   padding: 6px 20px;
   z-index: 100;

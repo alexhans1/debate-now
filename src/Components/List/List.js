@@ -16,6 +16,7 @@ class List extends Component {
     role: 'speaker',
     format: 'bps',
     language: 'de',
+    teamPartner: '',
   };
 
   constructor(props) {
@@ -124,6 +125,9 @@ class List extends Component {
       ...newUser,
       [propertyName]: event.target.value
     };
+    if (propertyName === 'role' && event.target.value === 'judge' && userToAdd.teamPartner !== '') {
+      userToAdd.teamPartner = '';
+    }
     this.setState({ newUser: userToAdd, });
   };
 
@@ -134,6 +138,7 @@ class List extends Component {
         this.state.newUser.role,
         this.state.newUser.format,
         this.state.newUser.language,
+        this.state.newUser.teamPartner,
         this.props.event.id
       );
       this.setState({
@@ -203,8 +208,8 @@ class List extends Component {
   }
 
   render() {
-    const { cards } = this.state;
-    const { canDrop, isOver, connectDropTarget } = this.props;
+    const { cards, newUser, showModal, showPasswordModal } = this.state;
+    const { canDrop, isOver, connectDropTarget, users, event } = this.props;
     const isActive = canDrop && isOver;
 
     const backgroundColor = isActive ? 'lightgreen' : 'rgba(0, 0, 0, 0.0)';
@@ -241,13 +246,16 @@ class List extends Component {
         })}
 
         {/*initialize new user modal*/}
-        <NewUserModal showModal={this.state.showModal} toggle={this.toggleModal.bind(this)}
-                      handleChange={this.handleChangeFor} newUser={this.state.newUser}
+        <NewUserModal showModal={showModal}
+                      toggle={this.toggleModal.bind(this)}
+                      handleChange={this.handleChangeFor}
+                      newUser={newUser}
+                      users={users}
                       handleSubmit={this.handleAddUserSubmit} />
 
-        <EventPasswordModal showModal={this.state.showPasswordModal}
+        <EventPasswordModal showModal={showPasswordModal}
                             toggle={this.togglePasswordModal}
-                            event={this.props.event} />
+                            event={event} />
       </div>
     );
   }
