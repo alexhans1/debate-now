@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import UserStore from '../../stores/UserStore';
 
 import {Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody,} from 'reactstrap'
 
@@ -30,7 +31,8 @@ class NewUserModal extends Component {
 
   render() {
 
-    const {showModal, handleChange, newUser, users,} = this.props;
+    const {showModal, handleChange, newUser,} = this.props;
+    const users = UserStore.getAllUsers();
 
     return (
       <div>
@@ -85,12 +87,16 @@ class NewUserModal extends Component {
               <FormGroup row>
                 <Label for="teamPartner" sm={3}>Team Partner</Label>
                 <Col sm={9}>
-                  <Input type="select" onChange={handleChange('teamPartner').bind(this)}
+                  <Input type="select"
+                         onChange={handleChange('teamPartner').bind(this)}
                          value={newUser.teamPartner}
-                         name="team partner" id="teamPartner" disabled={newUser.role === 'judge'}>
+                         name="team partner"
+                         className="capitalize"
+                         id="teamPartner"
+                         disabled={newUser.role === 'judge'}>
                     <option />
                     {users.map((user) => {
-                      return <option key={user.id}>{user.name}</option>
+                      return <option key={user.id} className="capitalize">{user.name}</option>
                     })}
                   </Input>
                 </Col>

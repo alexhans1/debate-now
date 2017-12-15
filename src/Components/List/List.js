@@ -209,7 +209,7 @@ class List extends Component {
 
   render() {
     const { cards, newUser, showModal, showPasswordModal } = this.state;
-    const { canDrop, isOver, connectDropTarget, users, event } = this.props;
+    const { canDrop, isOver, connectDropTarget, event } = this.props;
     const isActive = canDrop && isOver;
 
     const backgroundColor = isActive ? 'lightgreen' : 'rgba(0, 0, 0, 0.0)';
@@ -250,7 +250,6 @@ class List extends Component {
                       toggle={this.toggleModal.bind(this)}
                       handleChange={this.handleChangeFor}
                       newUser={newUser}
-                      users={users}
                       handleSubmit={this.handleAddUserSubmit} />
 
         <EventPasswordModal showModal={showPasswordModal}
