@@ -1,6 +1,6 @@
 # Debate Now
 
-https://alexhans1.github.io/debate-now
+http://now.debating.de
 
 Simple tool to set up club debates for debate societies.<br>
 Supports the use of multiple languages and the following formats
